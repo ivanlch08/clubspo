@@ -1,17 +1,44 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Contact
+      Registro
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-  </ion-list>
+<ion-content padding class="fondoInicial">
+  
+    <h2>Hola! Registrate!</h2>
+
+    <ion-list>
+        <ion-item class="fondoInput">
+          <ion-label stacked class="textoBlanco">Usuario</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+            <ion-label stacked>Contraseña</ion-label>
+            <ion-input type="text"></ion-input>
+          </ion-item>
+      
+
+      <ion-item>
+          <ion-label stacked>Nombre de usuario</ion-label>
+          <ion-input type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label stacked>Género</ion-label>
+          <ion-select>
+            <ion-option>Másculino</ion-option>
+            <ion-option>Fémenino</ion-option>
+          </ion-select>
+          
+        </ion-item>
+
+    </ion-list>
+
+    <button ion-button full>Registrarse</button>
+
+
 </ion-content>

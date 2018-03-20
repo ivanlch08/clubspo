@@ -1,6 +1,6 @@
 {
   "name": "clubspo",
-  "app_id": "",
+  "app_id": "d4f65524",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
