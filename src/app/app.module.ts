@@ -11,6 +11,21 @@ import { ConfirRegistroPage } from '../pages/confir-registro/confir-registro';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-service';
+
+import { HttpModule } from '@angular/http';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from 'angularfire2';
+//import { FirebaseService } from '../providers/firebase-service'; ya se encuentra arriba: FirebaseServiceProvider
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAsyAF_-kpfZYCXA7MN4Jpo1dbPj7AxR5k",
+  authDomain: "pruebafire-530b1.firebaseapp.com",
+  databaseURL: "https://pruebafire-530b1.firebaseio.com",
+  projectId: "pruebafire-530b1",
+  storageBucket: "pruebafire-530b1.appspot.com",
+  messagingSenderId: "119463449441"
+};
 
 @NgModule({
   declarations: [
@@ -23,6 +38,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    AngularFireDatabaseModule,
+    AngularFireModule.initializeApp(firebaseConfig),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -37,7 +55,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    FirebaseServiceProvider
   ]
 })
 export class AppModule {}

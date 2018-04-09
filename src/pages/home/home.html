@@ -15,6 +15,24 @@
 
   <br/>
 
+  <ion-input type="text" [(ngModel)]="newItem" placeholder="Nuevo Item"></ion-input>
+  <button ion-button (click)="addItem()">Agregar!</button>
+  <br/>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of shoppingItems | async">
+      <ion-item>
+        {{ item.val }}
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" icon-only (click)="removeItem(item.key)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <br/>
   <button ion-button full>Facebook</button>
   <br/>
   <button ion-button full>Google</button>
