@@ -5,6 +5,7 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 import { Observable } from 'rxjs/Observable';
 import { AngularFireList } from 'angularfire2/database';
 //import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import  firebase  from 'firebase';
 
 @Component({
   selector: 'page-home',
@@ -30,6 +31,17 @@ export class HomePage {
   removeItem(id){
     console.log('eliminando item: '+id);
     this.firebaseService.removeItem(id);
+  }
+
+  loginFace(){
+    let provider = new firebase.auth.FacebookAuthProvider();
+    firebase.auth().signInWithRedirect(provider).then(()=>{
+      firebase.auth().getRedirectResult().then((result)=>{
+        alert(JSON.stringify(result));
+      }).catch(function(error){
+        alert(JSON.stringify(error));
+      })
+    })
   }
 
 }
