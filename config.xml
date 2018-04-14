@@ -4,7 +4,7 @@
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <universal-links>
-        <host name="https://w6kx4.app.goo.gl" scheme="https" />
+        <host name="w6kx4.app.goo.gl" scheme="https" />
         <host name="pruebafire-530b1.firebaseapp.com" scheme="https">
             <path url="/__/auth/callback" />
         </host>
