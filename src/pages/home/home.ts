@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireList } from 'angularfire2/database';
 //import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import  firebase  from 'firebase';
+
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 @Component({
@@ -67,11 +68,14 @@ export class HomePage {
   }//loginFaceWeb
 
   loginFaceApp(){
+    this.firebaseService.registrarLog('login App.. 00');
     this.facebook.login(['email','public_profile']).then((response:FacebookLoginResponse) => {
+      this.firebaseService.registrarLog('login App.. 01');
       this.facebook.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
         this.userData = { email: profile['email'], first_name: profile['first_name'], picture: profile['picture_large']['data']['url'], username: profile['name'] };
       })
     });
+    this.firebaseService.registrarLog('login App.. 02');
   }//loginFaceApp
 
   pruebaLog(){
