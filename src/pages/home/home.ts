@@ -18,7 +18,7 @@ export class HomePage {
   newItem = '';
 
   userData = null;
-  mensajeLog = null;
+  //mensajeLog = null;
   constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private facebook:Facebook) {
     this.shoppingItems = this.firebaseService.getShoppingItems();
   }
@@ -38,10 +38,10 @@ export class HomePage {
     firebase.auth().signInWithRedirect(provider).then(()=>{
       firebase.auth().getRedirectResult().then((result)=>{
         //this.userData = { email: result['email'], first_name: result['first_name'], picture: result['picture_large']['data']['url'], username: result['name'] };
-        this.mensajeLog = JSON.stringify(result);
+        //this.mensajeLog = JSON.stringify(result);
         //alert(JSON.stringify(result));
       }).catch(function(error){
-        this.mensajeLog = JSON.stringify(error);
+        //this.mensajeLog = JSON.stringify(error);
         //alert(JSON.stringify(error));
       })
     })
