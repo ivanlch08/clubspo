@@ -10,8 +10,15 @@
   <h5 class="centro">unidos somos más</h5>
 
   <div class="centro">
-  <img src="assets/imgs/futbol.gif"  />
-</div>
+    <ion-card *ngIf="userData">
+      <ion-card-header>{{  userData.username }}</ion-card-header>
+      <img [src]="userData.picture" />
+      <ion-card-content>
+        <p>Email: {{ userData.email }}</p>
+        <p>Nombre: {{ userData.first_name }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
   <br/>
 
@@ -33,10 +40,13 @@
   </ion-list>
 
   <br/>
-  <button ion-button full (click)="loginFace()">Facebook</button>
+  <button ion-button full (click)="loginFaceWeb()">Facebook web</button>
+  <br/>
+  <button ion-button full (click)="loginFaceApp()">Facebook app</button>
   <br/>
   <button ion-button full>Google</button>
   <br/> 
   <button ion-button full>Cuenta propia</button>
-
+  <br/> 
+  mensajeLog: {{ mensajeLog }}
 </ion-content>

@@ -16,7 +16,8 @@ import { FirebaseServiceProvider } from '../providers/firebase-service/firebase-
 import { HttpModule } from '@angular/http';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireModule } from 'angularfire2';
-//import { FirebaseService } from '../providers/firebase-service'; ya se encuentra arriba: FirebaseServiceProvider
+
+import { Facebook } from '@ionic-native/facebook';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsyAF_-kpfZYCXA7MN4Jpo1dbPj7AxR5k",
@@ -56,7 +57,8 @@ const firebaseConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    FirebaseServiceProvider
+    FirebaseServiceProvider,
+    Facebook
   ]
 })
 export class AppModule {}
