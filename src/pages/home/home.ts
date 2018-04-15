@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 //import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
-import { AngularFireList } from 'angularfire2/database';
+//import { AngularFireList } from 'angularfire2/database';
 //import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import  firebase  from 'firebase';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
@@ -37,7 +37,7 @@ export class HomePage {
     let provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithRedirect(provider).then(()=>{
       firebase.auth().getRedirectResult().then((result)=>{
-        this.userData = { email: result['email'], first_name: result['first_name'], picture: result['picture_large']['data']['url'], username: result['name'] };
+        //this.userData = { email: result['email'], first_name: result['first_name'], picture: result['picture_large']['data']['url'], username: result['name'] };
         this.mensajeLog = JSON.stringify(result);
         //alert(JSON.stringify(result));
       }).catch(function(error){
