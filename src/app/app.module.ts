@@ -58,7 +58,7 @@ const firebaseConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FirebaseServiceProvider
-    //,Facebook
+    ,Facebook
   ]
 })
 export class AppModule {}
