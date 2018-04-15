@@ -35,58 +35,65 @@ export class HomePage {
   }
 
   loginFaceWeb(){
-    console.log('login web..');
     this.firebaseService.registrarLog('login web.. 00');
-    this.mensajeLog = 'inicio;';
     let provider = new firebase.auth.FacebookAuthProvider();
     this.firebaseService.registrarLog('login web.. 01');
-    this.mensajeLog += '01;';
+    
     try {
       firebase.auth().signInWithRedirect(provider).then(()=>{
-        console.log('login 01');
         this.firebaseService.registrarLog('login web.. 02');
         firebase.auth().getRedirectResult().then((result)=>{
-          console.log('login 02');
           this.firebaseService.registrarLog('login web.. 03');
           this.userData = { email: result['email'], first_name: result['first_name'], picture: result['picture_large']['data']['url'], username: result['name'] };
-          this.mensajeLog = JSON.stringify(result);
-          alert(JSON.stringify(result));
         }).catch(function(error){
-          console.log('login error xx');
           this.firebaseService.registrarLog('login web.. XX');
-          this.mensajeLog = JSON.stringify(error);
-          alert(JSON.stringify(error));
         })
       });
 
     } catch (error) {
-      console.log('error: '+JSON.stringify(error));
       this.firebaseService.registrarLog('login web.. XXX');
     }
-    console.log('login fin');
     this.firebaseService.registrarLog('login web.. FIN');
   }//loginFaceWeb
 
   loginFaceApp(){
-    var mensaje = '';
     this.firebaseService.registrarLog('login App.. 00');
     this.facebook.login(['email','public_profile']).then((response:FacebookLoginResponse) => {
       this.firebaseService.registrarLog('login App.. 01');
       this.facebook.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
         this.userData = { email: profile['email'], first_name: profile['first_name'], picture: profile['picture_large']['data']['url'], username: profile['name'] };
       })
-    }).catch(function(error){
-      mensaje += 'login App.. ERROR;';
-      //mensaje += JSON.stringify(error);
     });
-    this.firebaseService.registrarLog(mensaje);
     this.firebaseService.registrarLog('login App.. 02');
   }//loginFaceApp
+
+  loginFaceApp02(){
+    this.firebaseService.registrarLog('login App2.. 00');
+    this.facebook.login(['public_profile'])
+    .then((result:FacebookLoginResponse) => {
+      this.firebaseService.registrarLog('login App2.. 01');
+      this.mensajeLog = result.status;
+    })
+    .catch(e => {
+      this.firebaseService.registrarLog('login App2.. 02');
+      this.mensajeLog = e;
+    })
+ 
+    this.firebaseService.registrarLog('login App2.. 03 fin');
+  }//loginFaceApp
+
+  verificarEstado(){
+    
+  }
+
+  loginExitoso(userData){
+    this.mensajeLog = 'login exitoso!';
+  }
 
   pruebaLog(){
     this.mensajeLog = '01;';
     this.mensajeLog += 'esta es una prueba de log';
   }
+  //alert(JSON.stringify(error));
 
 }//clase
-
