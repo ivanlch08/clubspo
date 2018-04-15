@@ -34,17 +34,36 @@ export class HomePage {
   }
 
   loginFaceWeb(){
+    console.log('login web..');
+    this.firebaseService.registrarLog('login web.. 00');
+    this.mensajeLog = 'inicio;';
     let provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithRedirect(provider).then(()=>{
-      firebase.auth().getRedirectResult().then((result)=>{
-        this.userData = { email: result['email'], first_name: result['first_name'], picture: result['picture_large']['data']['url'], username: result['name'] };
-        this.mensajeLog = JSON.stringify(result);
-        alert(JSON.stringify(result));
-      }).catch(function(error){
-        this.mensajeLog = JSON.stringify(error);
-        alert(JSON.stringify(error));
-      })
-    })
+    this.firebaseService.registrarLog('login web.. 01');
+    this.mensajeLog += '01;';
+    try {
+      firebase.auth().signInWithRedirect(provider).then(()=>{
+        console.log('login 01');
+        this.firebaseService.registrarLog('login web.. 02');
+        firebase.auth().getRedirectResult().then((result)=>{
+          console.log('login 02');
+          this.firebaseService.registrarLog('login web.. 03');
+          this.userData = { email: result['email'], first_name: result['first_name'], picture: result['picture_large']['data']['url'], username: result['name'] };
+          this.mensajeLog = JSON.stringify(result);
+          alert(JSON.stringify(result));
+        }).catch(function(error){
+          console.log('login error xx');
+          this.firebaseService.registrarLog('login web.. XX');
+          this.mensajeLog = JSON.stringify(error);
+          alert(JSON.stringify(error));
+        })
+      });
+
+    } catch (error) {
+      console.log('error: '+JSON.stringify(error));
+      this.firebaseService.registrarLog('login web.. XXX');
+    }
+    console.log('login fin');
+    this.firebaseService.registrarLog('login web.. FIN');
   }//loginFaceWeb
 
   loginFaceApp(){
@@ -54,6 +73,11 @@ export class HomePage {
       })
     });
   }//loginFaceApp
+
+  pruebaLog(){
+    this.mensajeLog = '01;';
+    this.mensajeLog += 'esta es una prueba de log';
+  }
 
 }//clase
 

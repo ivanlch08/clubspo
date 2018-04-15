@@ -8,7 +8,9 @@
   
   <h2 class="centro">CLUBSPO</h2>
   <h5 class="centro">unidos somos más</h5>
-
+  <br/> 
+  mensajeLog: {{ mensajeLog }}
+  <br/> 
   <div class="centro">
     <ion-card *ngIf="userData">
       <ion-card-header>{{  userData.username }}</ion-card-header>
@@ -44,9 +46,8 @@
   <br/>
   <button ion-button full (click)="loginFaceApp()">Facebook app</button>
   <br/>
-  <button ion-button full>Google</button>
+  <button ion-button full (click)="pruebaLog()">Google</button>
   <br/> 
   <button ion-button full>Cuenta propia</button>
-  <br/> 
-  mensajeLog: {{ mensajeLog }}
+  
 </ion-content>

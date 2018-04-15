@@ -37,7 +37,11 @@ export class FirebaseServiceProvider {
     return this.afd.list('/shoppingItems').remove(id);
   }
 
-}
+  registrarLog(texto){
+    return this.afd.list('/errores').push(texto);
+  }
+
+}//clase
 
 
 
