@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 //import { AngularFireList } from 'angularfire2/database';
 //import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import  firebase  from 'firebase';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+//import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
 @Component({
   selector: 'page-home',
@@ -19,7 +19,8 @@ export class HomePage {
 
   userData = null;
   //mensajeLog = null;
-  constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private facebook:Facebook) {
+  //constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider, private facebook:Facebook) {
+  constructor(public navCtrl: NavController, public firebaseService: FirebaseServiceProvider) {
     this.shoppingItems = this.firebaseService.getShoppingItems();
   }
 
@@ -47,13 +48,13 @@ export class HomePage {
     })
   }//loginFaceWeb
 
-  loginFaceApp(){
+  /*loginFaceApp(){
     this.facebook.login(['email','public_profile']).then((response:FacebookLoginResponse) => {
       this.facebook.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
         this.userData = { email: profile['email'], first_name: profile['first_name'], picture: profile['picture_large']['data']['url'], username: profile['name'] };
       })
     });
   }//loginFaceApp
-
+*/
 }//clase
 
