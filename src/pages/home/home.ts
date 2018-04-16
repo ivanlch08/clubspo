@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
 //import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
-import { AngularFireList } from 'angularfire2/database';
+//import { AngularFireList } from 'angularfire2/database';
 //import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import  firebase  from 'firebase';
 
@@ -76,6 +76,7 @@ export class HomePage {
     })
     .catch(e => {
       this.firebaseService.registrarLog('login App2.. 02');
+      this.firebaseService.registrarLog(e);
       this.mensajeLog = e;
     })
  
