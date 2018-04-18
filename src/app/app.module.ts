@@ -18,6 +18,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireModule } from 'angularfire2';
 
 import { Facebook } from '@ionic-native/facebook';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsyAF_-kpfZYCXA7MN4Jpo1dbPj7AxR5k",
@@ -59,6 +61,8 @@ const firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FirebaseServiceProvider
     ,Facebook
+    ,GooglePlus
+    ,AngularFireAuth
   ]
 })
 export class AppModule {}

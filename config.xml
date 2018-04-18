@@ -98,4 +98,7 @@
         <variable name="APP_ID" value="2165538647008347" />
         <variable name="APP_NAME" value="ClubspoTest" />
     </plugin>
+    <plugin name="cordova-plugin-googleplus" spec="^5.3.0">
+        <variable name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.119463449441-tg4cp1dluqio28gfgvml7b0bri0pamra" />
+    </plugin>
 </widget>
