@@ -141,36 +141,51 @@ export class HomePage {
   }//faceLogout
 
   googleLogin(){
-    /*if( this.platform.is('cordova') ){
+    if( this.platform.is('cordova') ){
       this.nativeGoogleLogin();
     }else{
       this.webGoogleLogin();
-    }*/
-    this.webGoogleLogin();
+    }
   }//googleLogin
 
   async nativeGoogleLogin() : Promise<void> {
+    this.firebaseService.registrarLog('inicio applogin');
+    try{
+      const gplususer = await this.gplus.login({
+        'webClientId': '119463449441-8ldpb4q8r6u3vesdu937psij4k8a8m4g.apps.googleusercontent.com', 
+        'offline' : true, 
+        'scopes' : 'profile email'
+      })
 
+      await this.afAuth.auth.signInWithCredential(
+        firebase.auth.GoogleAuthProvider.credential(gplususer.idToken)
+      ).then(credential => {
+        this.conectado = true;
+        this.userData = {email: credential['email'], first_name: credential['displayName'], picture: credential['photoURL'], username: credential['displayName']}
+        this.firebaseService.registrarLog('native google exitoso: '+ JSON.stringify(credential) );
+      });
+
+    }catch(err){
+      console.log(err);
+      this.firebaseService.registrarLog('error native google: '+ JSON.stringify(err) );
+    }
+
+    this.firebaseService.registrarLog('fin applogin');
   }//nativeGoogleLogin
 
   async webGoogleLogin() : Promise<void> {
     this.firebaseService.registrarLog('inicio weblogin');
     try{
       const provider = new firebase.auth.GoogleAuthProvider();
-      //v1
-      /*const credential = await this.afAuth.auth.signInWithPopup(provider);
-      console.log('credential: '+credential);
-      this.firebaseService.registrarLog('credential: '+credential);*/
-      //v2
+      
       await this.afAuth.auth.signInWithPopup(provider).then(credential => {
         console.log('credential: '+JSON.stringify(credential));
-        //this.firebaseService.registrarLog('credential: '+JSON.stringify(credential));
         this.conectado = true;
         let usuario = credential.user;
-        this.userData = {email: usuario['email'], first_name: usuario['displayName'], picture: usuario['photoURL'], username: usuario['email']}
+        this.userData = {email: usuario['email'], first_name: usuario['displayName'], picture: usuario['photoURL'], username: usuario['displayName']}
       });
     }catch(err){
-      this.firebaseService.registrarLog('error weblogin');
+      this.firebaseService.registrarLog('error weblogin: '+JSON.stringify(err));
       console.log(err);
     }
     this.firebaseService.registrarLog('fin weblogin');
@@ -178,9 +193,9 @@ export class HomePage {
 
   googleLogout(){
     this.afAuth.auth.signOut();
-    /*if( this.platform.is('cordova') ){
+    if( this.platform.is('cordova') ){
       this.gplus.logout();
-    }*/
+    }
     this.conectadoGoogle = false;
   }//googleLogout
 
@@ -192,6 +207,7 @@ export class HomePage {
         this.googleLogout();
       }
       this.conectado = false;
+      this.userData = null;
     }
   }//logout
   //alert(JSON.stringify(error));
