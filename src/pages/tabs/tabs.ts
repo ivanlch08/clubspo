@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
+import { CuentaPropiaPage } from '../cuentaPropia/cuentaPropia';
+import { RegistroPage } from '../registro/registro';
 import { HomePage } from '../home/home';
 import { ConfirRegistroPage } from '../confir-registro/confir-registro';
 
@@ -11,8 +11,8 @@ import { ConfirRegistroPage } from '../confir-registro/confir-registro';
 export class TabsPage {
 
   tab1Root = HomePage;
-  tab2Root = AboutPage;
-  tab3Root = ContactPage;
+  tab2Root = CuentaPropiaPage;
+  tab3Root = RegistroPage;
   tab4Root = ConfirRegistroPage;
 
   constructor() {

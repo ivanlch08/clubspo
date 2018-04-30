@@ -10,15 +10,17 @@
   
     <h2>Hola! Registrate!</h2>
 
+    <h3>-> {{ mensajeLog }}</h3>
+
     <ion-list>
         <ion-item class="fondoInput">
-          <ion-label stacked class="textoBlanco">Usuario</ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-label stacked class="textoBlanco">Correo electrónico</ion-label>
+          <ion-input type="text" [(ngModel)]="user.email"></ion-input>
         </ion-item>
     
         <ion-item>
             <ion-label stacked>Contraseña</ion-label>
-            <ion-input type="text"></ion-input>
+            <ion-input type="password" [(ngModel)]="user.password"></ion-input>
           </ion-item>
       
 
@@ -38,7 +40,7 @@
 
     </ion-list>
 
-    <button ion-button full>Registrarse</button>
+    <button ion-button full (click)="accionRegistrar(user)">Registrarse</button>
 
 
 </ion-content>

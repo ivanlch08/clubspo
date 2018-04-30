@@ -4,6 +4,8 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 import { Observable } from 'rxjs/Observable';
 import  firebase  from 'firebase';
 
+import { CuentaPropiaPage } from '../cuentaPropia/cuentaPropia';
+
 //para autenticacion con facebook
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 //para autenticacion con google
@@ -211,5 +213,9 @@ export class HomePage {
     }
   }//logout
   //alert(JSON.stringify(error));
+
+  irCuentaPropia(){
+    this.navCtrl.push(CuentaPropiaPage);
+  }//irCuentaPropia
 
 }//clase

@@ -46,7 +46,7 @@
     <br/>
     <button ion-button full (click)="googleLogin()">Google</button>
     <br/> 
-    <button ion-button full>Cuenta propia</button>
+    <button ion-button full (click)="irCuentaPropia()">Cuenta propia</button>
   </div>
   <div *ngIf="conectado == true">
     <button ion-button full (click)="logout()">Cerrar sesión</button>
