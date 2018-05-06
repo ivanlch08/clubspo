@@ -11,6 +11,19 @@
 pagina inicial
 <br/>
 <br/>
+<div class="centro">
+  <ion-card *ngIf="userData">
+    <ion-card-header>{{  userData.username }}</ion-card-header>
+    <img [src]="userData.picture" />
+    <ion-card-content>
+      <p>Email: {{ userData.email }}</p>
+      <p>Nombre: {{ userData.first_name }}</p>
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<br/>
+<br/>
 
 <button ion-button full (click)="logout()">Cerrar sesión</button>
 

@@ -1,12 +1,30 @@
-//import { Http } from '@angular/http';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AngularFirestore } from 'angularfire2/firestore';
+
+import { User } from '../../models/user';
 
 @Injectable()
 export class FirebaseServiceProvider {
 
-  constructor(public afd: AngularFireDatabase) {
+  usuariosRef: AngularFireList<any>;
+  listaUsuarios: Observable<any[]>;
+  
+  constructor(
+    public afd: AngularFireDatabase, 
+    private afstore: AngularFirestore) {
     console.log('Hello FirebaseServiceProvider Provider');
+
+    //prueba inserts
+    console.log('cargando lista de usuarios...');
+    this.usuariosRef = this.afd.list('/usuarios');
+    this.listaUsuarios = this.usuariosRef.snapshotChanges()
+    .map(changes => {
+      return changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
+    });
+
+    
   }
 
   getShoppingItems(){
@@ -40,6 +58,38 @@ export class FirebaseServiceProvider {
   registrarLog(texto){
     return this.afd.list('/errores').push(texto);
   }
+
+  registrarUsuario(user: User){
+    console.log('registrando usuario...');
+    //let rid: string = ''+Math.random()*100000;
+    console.log('id aleatorio: '+user.uid);
+    
+    const nuevoUsuario = this.usuariosRef.push({});
+    nuevoUsuario.set({
+      id: user.uid, 
+      displayName: user.nombre,
+      email: user.email
+    });
+
+    //v2
+    let data = {
+      displayName: user.nombre,
+      email: user.email
+    };
+    
+    this.afstore.firestore.collection('usuarios').doc(user.uid).set(data)
+    .then(userRef => {
+      this.afstore.firestore.collection('usuarios').doc(user.uid).collection('registro').add({
+        notificadoPorCorreo: 'no'
+      }).then(result => {
+        console.log('registro correo creado!');
+      }).catch(function(err){
+        console.log('error creando correo: '+err);
+      })
+    });
+
+    console.log('usuario registrado!');
+  }//registrarUsuario
 
 }//clase
 

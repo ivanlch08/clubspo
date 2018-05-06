@@ -23,6 +23,10 @@ import { GooglePlus } from '@ionic-native/google-plus';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { LoginManagerProvider } from '../providers/login-manager/login-manager';
 
+//para usar firestore
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
 const firebaseConfig = {
   apiKey: "AIzaSyAsyAF_-kpfZYCXA7MN4Jpo1dbPj7AxR5k",
   authDomain: "pruebafire-530b1.firebaseapp.com",
@@ -47,7 +51,9 @@ const firebaseConfig = {
     HttpModule,
     AngularFireDatabaseModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp), 
+    AngularFirestoreModule, 
+    AngularFireAuthModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

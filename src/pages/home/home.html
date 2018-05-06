@@ -9,7 +9,7 @@
   <h2 class="centro">CLUBSPO</h2>
   <h5 class="centro">unidos somos más</h5>
   <br/> 
-  mensajeLog: {{ mensajeLog }}
+  {{ mensajeLog }}
   <br/> 
   <div class="centro">
     <ion-card *ngIf="userData">
@@ -23,23 +23,8 @@
   </div>
 
   <br/>
-
-  <ion-input type="text" [(ngModel)]="newItem" placeholder="Nuevo Item"></ion-input>
-  <button ion-button (click)="addItem()">Agregar!</button>
   <br/>
-
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of shoppingItems | async">
-      <ion-item>
-        {{ item.val }}
-      </ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="danger" icon-only (click)="removeItem(item.key)">
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+  <br/>
 
   <div *ngIf="conectado == false">
     <button ion-button full (click)="faceLoginApp()">Facebook</button>
@@ -51,5 +36,6 @@
   <div *ngIf="conectado == true">
     <button ion-button full (click)="logout()">Cerrar sesión</button>
   </div>
+  <button ion-button full (click)="irPrincipal()">ir a pagina principal</button>
   
 </ion-content>

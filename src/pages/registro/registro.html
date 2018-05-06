@@ -10,7 +10,7 @@
   
     <h2>Hola! Registrate!</h2>
 
-    <h3>-> {{ mensajeLog }}</h3>
+    <h3>{{ mensajeLog }}</h3>
 
     <ion-list>
         <ion-item class="fondoInput">
@@ -26,7 +26,7 @@
 
       <ion-item>
           <ion-label stacked>Nombre de usuario</ion-label>
-          <ion-input type="text"></ion-input>
+          <ion-input type="text" [(ngModel)]="user.nombre"></ion-input>
         </ion-item>
 
         <ion-item>

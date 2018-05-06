@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import  firebase  from 'firebase';
 
 import { CuentaPropiaPage } from '../cuentaPropia/cuentaPropia';
+import { InicialPage } from '../inicial/inicial';
 
 //para autenticacion con facebook
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
@@ -41,20 +42,20 @@ export class HomePage {
     private platform:Platform,
     private gplus:GooglePlus
   ) {
-    this.firebaseService.registrarLog('iniciar constr');
+    //this.firebaseService.registrarLog('iniciar constr');
 
     this.shoppingItems = this.firebaseService.getShoppingItems();
     
     //this.procesoInicialVerificarLoginFace();
     this.procesoInicialVerificarLoginGoogle();
 
-    this.firebaseService.registrarLog('fin constr');
+    //this.firebaseService.registrarLog('fin constr');
   }//constructor
 
   procesoInicialVerificarLoginGoogle(){
-    this.firebaseService.registrarLog('verificando login google');
+    //this.firebaseService.registrarLog('verificando login google');
     this.user = this.afAuth.authState;
-    this.firebaseService.registrarLog('fin verificar login google');
+    //this.firebaseService.registrarLog('fin verificar login google');
   }//procesoInicialVerificarLoginGoogle
 
   procesoInicialVerificarLoginFace(){
@@ -217,5 +218,9 @@ export class HomePage {
   irCuentaPropia(){
     this.navCtrl.push(CuentaPropiaPage);
   }//irCuentaPropia
+
+  irPrincipal(){
+    this.navCtrl.push(InicialPage);
+  }
 
 }//clase

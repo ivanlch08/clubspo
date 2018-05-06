@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuth } from 'angularfire2/auth';
 
@@ -16,7 +16,10 @@ export class CuentaPropiaPage {
   user = {} as User;
   mensajeLog = "" as string;
 
-  constructor(public navCtrl: NavController, private afAuth: AngularFireAuth) {
+  constructor(
+    public navCtrl: NavController, 
+    private alertCtrl: AlertController, 
+    private afAuth: AngularFireAuth) {
 
   }
 
@@ -36,4 +39,23 @@ export class CuentaPropiaPage {
   irRegistro(){
     this.navCtrl.push(RegistroPage);
   }
+
+  popupRestablecerClave(){
+    let alert = this.alertCtrl.create({
+      title: 'Ingresa tu correo', 
+      inputs: [
+        {
+          name: 'Correo electrónico', 
+          placeholder: 'Coreo electrónico'
+        }
+      ], 
+      buttons: [{
+        text: 'Restablecer', 
+        handler: data => {
+          console.log('correo de restablecimiento enviado...');
+        }
+      }]
+    });
+    alert.present();
+  }//popupRestablecerClave
 }

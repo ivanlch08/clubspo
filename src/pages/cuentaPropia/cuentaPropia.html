@@ -9,16 +9,19 @@
 <ion-content padding class="fondoInicial">
   
     <h2>Bienvenido</h2>
+    <br/> 
+    {{ mensajeLog }}
+    <br/> 
   
     <ion-list>
       <ion-item>
         <ion-label stacked>Usuario</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="user.email"></ion-input>
       </ion-item>
   
       <ion-item>
           <ion-label stacked>Contraseña</ion-label>
-          <ion-input type="password"></ion-input>
+          <ion-input type="password" [(ngModel)]="user.password"></ion-input>
         </ion-item>
     </ion-list>
   
@@ -26,7 +29,7 @@
   
     <button ion-button full (click)="accionLogin(user)">Conectarse</button>
     <br/>
-    <button ion-button outline small full>Has olvidado la clave?</button>
+    <button ion-button outline small full (click)="popupRestablecerClave()">Has olvidado la clave?</button>
     <br/>
     <button ion-button outline small full (click)="irRegistro()">Eres usuario nuevo?</button>
   
