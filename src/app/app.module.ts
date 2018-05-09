@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ConfirRegistroPage } from '../pages/confir-registro/confir-registro';
 import { InicialPage } from '../pages/inicial/inicial';
+import { AAADatosBasicosPage } from '../pages/aaa-datos-basicos/aaa-datos-basicos';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,6 +28,8 @@ import { LoginManagerProvider } from '../providers/login-manager/login-manager';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
+import { FrecDeporteComponent } from '../components/frec-deporte/frec-deporte';
+
 const firebaseConfig = {
   apiKey: "AIzaSyAsyAF_-kpfZYCXA7MN4Jpo1dbPj7AxR5k",
   authDomain: "pruebafire-530b1.firebaseapp.com",
@@ -44,7 +47,9 @@ const firebaseConfig = {
     HomePage,
     TabsPage,
     ConfirRegistroPage,
-    InicialPage
+    InicialPage, 
+    AAADatosBasicosPage, 
+    FrecDeporteComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +68,9 @@ const firebaseConfig = {
     HomePage,
     TabsPage,
     ConfirRegistroPage,
-    InicialPage
+    InicialPage, 
+    AAADatosBasicosPage, 
+    FrecDeporteComponent
   ],
   providers: [
     StatusBar,

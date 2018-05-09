@@ -8,6 +8,9 @@ import { FirebaseServiceProvider } from '../../providers/firebase-service/fireba
 //para autenticacion con facebook
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
+//navegacion
+import { AAADatosBasicosPage } from '../../pages/aaa-datos-basicos/aaa-datos-basicos';
+
 @Component({
   selector: 'page-inicial',
   templateUrl: 'inicial.html',
@@ -68,5 +71,9 @@ export class InicialPage {
       }).present();
     });
   }//faceLogout
+
+  accionIniciarAAA(){
+    this.navCtrl.push(AAADatosBasicosPage);
+  }//accionIniciarAAA
 
 }//clase
