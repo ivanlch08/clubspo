@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>AAAGustoDeportivo</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="fondoInicial">
+
+  <h2>¿Qué deporte practicas?</h2>
+
+  <seleccion-deporte></seleccion-deporte>
+  <seleccion-deporte></seleccion-deporte>
+  <seleccion-deporte></seleccion-deporte>
+
+  <br/>
+  <button ion-button full>Mostrar más</button>
+  <br/>
+  <button ion-button full (click)="accionPopupDeporte()">Buscar</button>
+  <br/>
+  <button ion-button full (click)="accionFrecuencia()">Continuar</button>
+
+</ion-content>

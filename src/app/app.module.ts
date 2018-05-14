@@ -9,7 +9,6 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ConfirRegistroPage } from '../pages/confir-registro/confir-registro';
 import { InicialPage } from '../pages/inicial/inicial';
-import { AAADatosBasicosPage } from '../pages/aaa-datos-basicos/aaa-datos-basicos';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -28,7 +27,21 @@ import { LoginManagerProvider } from '../providers/login-manager/login-manager';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
+//CU AAA
+import { AAADatosBasicosPage } from '../pages/aaa-datos-basicos/aaa-datos-basicos';
+import { AaaGustoDeportivoPage } from '../pages/aaa-gusto-deportivo/aaa-gusto-deportivo';
+import { AaaPopupDeportePage } from '../pages/aaa-popup-deporte/aaa-popup-deporte';
+import { AaaFrecuenciaPage } from '../pages/aaa-frecuencia/aaa-frecuencia';
+import { AaaNivelCompetitividadPage } from '../pages/aaa-nivel-competitividad/aaa-nivel-competitividad';
+import { AaaInteresPrincipalPage } from '../pages/aaa-interes-principal/aaa-interes-principal';
+
+//componentes
 import { FrecDeporteComponent } from '../components/frec-deporte/frec-deporte';
+import { SeleccionDeporteComponent } from '../components/seleccion-deporte/seleccion-deporte';
+import { InteresDeporteComponent } from '../components/interes-deporte/interes-deporte';
+
+//providers
+import { AaaBackingBeanProvider } from '../providers/aaa-backing-bean/aaa-backing-bean';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAsyAF_-kpfZYCXA7MN4Jpo1dbPj7AxR5k",
@@ -48,8 +61,17 @@ const firebaseConfig = {
     TabsPage,
     ConfirRegistroPage,
     InicialPage, 
+    //CUAAA
     AAADatosBasicosPage, 
-    FrecDeporteComponent
+    AaaGustoDeportivoPage,
+    AaaPopupDeportePage,
+    AaaFrecuenciaPage,
+    AaaNivelCompetitividadPage,
+    AaaInteresPrincipalPage,
+    //COMPONENTES
+    FrecDeporteComponent, 
+    SeleccionDeporteComponent,
+    InteresDeporteComponent
   ],
   imports: [
     BrowserModule,
@@ -69,8 +91,17 @@ const firebaseConfig = {
     TabsPage,
     ConfirRegistroPage,
     InicialPage, 
+    //CUAAA
     AAADatosBasicosPage, 
-    FrecDeporteComponent
+    AaaGustoDeportivoPage,
+    AaaPopupDeportePage,
+    AaaFrecuenciaPage,
+    AaaNivelCompetitividadPage,
+    AaaInteresPrincipalPage,
+    //COMPONENTES
+    FrecDeporteComponent, 
+    SeleccionDeporteComponent, 
+    InteresDeporteComponent
   ],
   providers: [
     StatusBar,
@@ -80,7 +111,8 @@ const firebaseConfig = {
     ,Facebook
     ,GooglePlus
     ,AngularFireAuth,
-    LoginManagerProvider
+    LoginManagerProvider,
+    AaaBackingBeanProvider
   ]
 })
 export class AppModule {}

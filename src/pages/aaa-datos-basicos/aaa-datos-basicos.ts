@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AaaGustoDeportivoPage } from '../aaa-gusto-deportivo/aaa-gusto-deportivo';
+
+//navegacion
+//import {} from '../';
 
 @Component({
   selector: 'page-aaa-datos-basicos',
@@ -14,4 +18,8 @@ export class AAADatosBasicosPage {
     console.log('ionViewDidLoad AAADatosBasicosPage');
   }
 
-}
+  accionGustoDeportivo(){
+    this.navCtrl.push(AaaGustoDeportivoPage);
+  }//accionGustoDeportivo
+
+}//clase
