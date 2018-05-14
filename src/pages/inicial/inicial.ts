@@ -4,7 +4,10 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { HomePage } from '../../pages/home/home';
 import { LoginManagerProvider } from '../../providers/login-manager/login-manager';
 
+//firebase
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
+import  firebase  from 'firebase';
+
 //para autenticacion con facebook
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 
@@ -32,8 +35,13 @@ export class InicialPage {
 
   //ionViewDidLoad() {
   ionViewWillLoad() {
-    
-    /*console.log('VERIFICAR SI SE ENCUENTRA ALGUIEN AUTENTICADO');
+  //ngOnInit(){
+    console.log('VERIFICAR SI SE ENCUENTRA ALGUIEN AUTENTICADO');
+    this.userData = {
+      email: 'nada@nada.com', 
+      username: 'probando 1..'
+    }
+    /*
     this.firebaseService.registrarLog('VERIFICAR SI SE ENCUENTRA ALGUIEN AUTENTICADO');
     this.afAuth.authState.subscribe(data => {
       this.firebaseService.registrarLog('info inicial: '+data);
@@ -51,9 +59,32 @@ export class InicialPage {
         //nav a autenticacion
         this.navCtrl.setRoot(HomePage);
       }
-    }
+    } 
     );*/
-  }
+    
+    //v2
+    
+    console.log('onAuthStateChanged');
+    firebase.auth().onAuthStateChanged(this.verificarUsuario.bind(this));
+    console.log('onAuthStateChanged finish');
+    
+  }//ionViewDidLoad
+
+  verificarUsuario(user){
+    console.log('metodo verificarUsuario');
+    if(user){
+      console.log('usuario autenticado');
+      console.log(user);
+      this.userData = {
+        email: user.email, 
+        username: 'probando 2..'
+      }
+      var usuario = firebase.auth().currentUser;
+      console.log('usuario: '+usuario);
+    }else{
+      console.log('NO se encuentra autenticado');
+    }
+  }//cargarUsuario
 
   logout(){
     //verificar 
