@@ -38,8 +38,8 @@ export class InicialPage {
   //ngOnInit(){
     console.log('VERIFICAR SI SE ENCUENTRA ALGUIEN AUTENTICADO');
     this.userData = {
-      email: 'nada@nada.com', 
-      username: 'probando 1..'
+      email: 'ninguno', 
+      username: 'ninguno'
     }
     /*
     this.firebaseService.registrarLog('VERIFICAR SI SE ENCUENTRA ALGUIEN AUTENTICADO');
@@ -74,20 +74,39 @@ export class InicialPage {
     console.log('metodo verificarUsuario');
     if(user){
       console.log('usuario autenticado');
-      console.log(user);
-      this.userData = {
-        email: user.email, 
-        username: 'probando 2..'
-      }
-      var usuario = firebase.auth().currentUser;
-      console.log('usuario: '+usuario);
+      //console.log(user);
+      this.cargarInfoUsuario();
     }else{
       console.log('NO se encuentra autenticado');
+      this.navCtrl.setRoot(HomePage);
     }
-  }//cargarUsuario
+  }//verificarUsuario
+
+  cargarInfoUsuario(){
+    var usuario = firebase.auth().currentUser;
+    if(usuario != null){
+      //user.pro
+      usuario.providerData.forEach(this.obtenerInfoProvider.bind(this));
+    }
+  }//cargarInfoUsuario
+
+  obtenerInfoProvider(profile){
+    console.info('SingIn provider: '+profile.providerId);
+      console.info('provider specific uid: '+profile.uid);
+      console.info('Name: '+profile.displayName);
+      console.info('email: '+profile.email);
+      console.info('Photo: '+profile.photoURL);
+      //CARGAR INFO
+      this.userData = {
+        email: profile.email, 
+        username: profile.displayName, 
+        picture: profile.photoURL, 
+        first_name: profile.displayName 
+      }
+  }//obtenerInfoProvider
 
   logout(){
-    //verificar 
+    //verificar
     //this.faceLogout();
     //ir a loginPage
     this.afAuth.auth.signOut();
