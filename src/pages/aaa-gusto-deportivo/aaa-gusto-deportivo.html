@@ -11,9 +11,10 @@
 
   <h2>¿Qué deporte practicas?</h2>
 
-  <seleccion-deporte></seleccion-deporte>
-  <seleccion-deporte></seleccion-deporte>
-  <seleccion-deporte></seleccion-deporte>
+  <div *ngFor="let deporte of listaDeportes">
+    <seleccion-deporte [nombre]="deporte.nombre"></seleccion-deporte>
+  </div>
+  
 
   <br/>
   <button ion-button full>Mostrar más</button>

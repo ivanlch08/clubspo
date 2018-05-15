@@ -42,33 +42,25 @@ export class HomePage {
     private platform:Platform,
     private gplus:GooglePlus
   ) {
-    //this.firebaseService.registrarLog('iniciar constr');
-
+    
     this.shoppingItems = this.firebaseService.getShoppingItems();
     
     //this.procesoInicialVerificarLoginFace();
-    this.procesoInicialVerificarLoginGoogle();
+    //this.procesoInicialVerificarLoginGoogle();
 
-    //this.firebaseService.registrarLog('fin constr');
   }//constructor
 
   procesoInicialVerificarLoginGoogle(){
-    //this.firebaseService.registrarLog('verificando login google');
     this.user = this.afAuth.authState;
-    //this.firebaseService.registrarLog('fin verificar login google');
   }//procesoInicialVerificarLoginGoogle
 
   procesoInicialVerificarLoginFace(){
     //verificar si el usuario se encuentra autenticado
-    this.firebaseService.registrarLog('verificando login...');
     
     this.faceVerificarEstado().then(result => {
-      this.firebaseService.registrarLog('login: '+result);
       this.conectado = result;
       if(this.conectado){
-        this.firebaseService.registrarLog('obteniendo info usuario...');
         this.faceObtenerInfoUsuario();
-        this.firebaseService.registrarLog('info usuario obtenida!');
         //ocultar botones de login
         //mostrar boton de logout
       }
@@ -92,15 +84,23 @@ export class HomePage {
       firebase.auth().getRedirectResult().then((result)=>{
         this.userData = { email: result['email'], first_name: result['first_name'], picture: result['picture_large']['data']['url'], username: result['name'] };
       }).catch(function(error){
-        this.firebaseService.registrarLog('login web.. XX');
+        console.log(error);
       })
     });
   }//loginFaceWeb
-
-  faceLoginApp(){
-    this.facebook.login(['email','public_profile']).then((response:FacebookLoginResponse) => {
-      this.faceObtenerInfoUsuario();
-    });
+  
+  async faceLoginApp() : Promise<void> {
+    try{
+      const facebookUser = await this.facebook.login(['email','public_profile'])
+      await this.afAuth.auth.signInWithCredential(
+        firebase.auth.FacebookAuthProvider.credential(facebookUser.authResponse.accessToken)
+      ).then(credential => {
+        this.conectado = true;
+        this.userData = {email: credential['email'], first_name: credential['displayName'], picture: credential['photoURL'], username: credential['displayName']}
+      });
+    }catch(err){
+      console.log(err);
+    }
   }//loginFaceApp
 
   faceVerificarEstado() : Promise<any> {
@@ -109,8 +109,6 @@ export class HomePage {
       this.facebook.getLoginStatus().then(result => {
         this.mensajeLog = 'estado login: '+result.status;
         var conne:boolean = 'connected' == result.status;
-        this.firebaseService.registrarLog('estado: '+result.status);
-        this.firebaseService.registrarLog('conne: '+conne);
         if(conne){
           resolve(conne);
         }else{
@@ -126,21 +124,16 @@ export class HomePage {
   }//verificarEstado
 
   faceObtenerInfoUsuario(){
-    this.firebaseService.registrarLog('obteniendo info del usuario...');
     this.facebook.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
       this.conectado = true;
       this.userData = { email: profile['email'], first_name: profile['first_name'], picture: profile['picture_large']['data']['url'], username: profile['name'] };
     });
-    this.firebaseService.registrarLog('fin obtener info!');
   }//faceObtenerInfoUsuario
 
   faceLogout(){
-    this.firebaseService.registrarLog('logout en proceso...');
     this.facebook.logout().then(result => {
-      this.firebaseService.registrarLog('logout exitoso!');
       this.conectadoFace = false;
     });
-    this.firebaseService.registrarLog('logout fin');
   }//faceLogout
 
   googleLogin(){
@@ -152,7 +145,6 @@ export class HomePage {
   }//googleLogin
 
   async nativeGoogleLogin() : Promise<void> {
-    this.firebaseService.registrarLog('inicio applogin');
     try{
       const gplususer = await this.gplus.login({
         'webClientId': '119463449441-8ldpb4q8r6u3vesdu937psij4k8a8m4g.apps.googleusercontent.com', 
@@ -165,19 +157,15 @@ export class HomePage {
       ).then(credential => {
         this.conectado = true;
         this.userData = {email: credential['email'], first_name: credential['displayName'], picture: credential['photoURL'], username: credential['displayName']}
-        this.firebaseService.registrarLog('native google exitoso: '+ JSON.stringify(credential) );
       });
 
     }catch(err){
       console.log(err);
-      this.firebaseService.registrarLog('error native google: '+ JSON.stringify(err) );
     }
 
-    this.firebaseService.registrarLog('fin applogin');
   }//nativeGoogleLogin
 
   async webGoogleLogin() : Promise<void> {
-    this.firebaseService.registrarLog('inicio weblogin');
     try{
       const provider = new firebase.auth.GoogleAuthProvider();
       
@@ -188,10 +176,9 @@ export class HomePage {
         this.userData = {email: usuario['email'], first_name: usuario['displayName'], picture: usuario['photoURL'], username: usuario['displayName']}
       });
     }catch(err){
-      this.firebaseService.registrarLog('error weblogin: '+JSON.stringify(err));
       console.log(err);
     }
-    this.firebaseService.registrarLog('fin weblogin');
+
   }//nativeGoogleLogin
 
   googleLogout(){

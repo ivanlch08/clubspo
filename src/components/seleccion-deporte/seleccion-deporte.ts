@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'seleccion-deporte',
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 export class SeleccionDeporteComponent {
 
   text: string;
+  @Input('nombre')
+  nombre: string;
 
   constructor() {
     console.log('Hello SeleccionDeporteComponent Component');

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { AaaFrecuenciaPage } from '../aaa-frecuencia/aaa-frecuencia';
 import { AaaPopupDeportePage } from '../aaa-popup-deporte/aaa-popup-deporte';
+import { Observable } from 'rxjs/Observable';
+import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-backing-bean';
 
 @Component({
   selector: 'page-aaa-gusto-deportivo',
@@ -9,11 +11,22 @@ import { AaaPopupDeportePage } from '../aaa-popup-deporte/aaa-popup-deporte';
 })
 export class AaaGustoDeportivoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private modalCtrl: ModalController) {
+  listaDeportes: Observable<any[]>;
+  texto: string = 'qwe';
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private aaaBackingProvider: AaaBackingBeanProvider,
+    private modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AaaGustoDeportivoPage');
+    
+    //cargar info del provider
+    this.listaDeportes = this.aaaBackingProvider.listaDeportes;
+    console.log('this.listaDeportes 1: '+this.listaDeportes.map.length);
+    console.log('this.listaDeportes 2: '+this.listaDeportes);
   }
 
   accionPopupDeporte(){

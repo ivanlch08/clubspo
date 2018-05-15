@@ -8,14 +8,14 @@
 
 
 <ion-content padding class="fondoInicial">
-
+  {{mensajeError}}
   <table border="1">
     <tr>
       <td>
         País:
       </td>
       <td>
-        <ion-input type="text" value="abc"></ion-input>
+        <ion-input type="text" [(ngModel)]="paisRef"></ion-input>
       </td>
     </tr>
     <tr>
@@ -23,7 +23,7 @@
         Ciudad:
       </td>
       <td>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="ciudadRef"></ion-input>
       </td>
     </tr>
     <tr>
@@ -31,7 +31,9 @@
         Fecha<br/>nacimiento:
       </td>
       <td>
-        
+        <ion-item>
+          <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="fechaNacimiento"></ion-datetime>
+        </ion-item>
       </td>
     </tr>
     <tr>
@@ -40,18 +42,18 @@
       </td>
       <td>
         
-        <ion-list>
+        <ion-list radio-group [(ngModel)]="generoRef">
           <ion-item>
             <ion-label>
-              M
+              Hombre
             </ion-label>
-            <ion-radio></ion-radio>
+            <ion-radio value="1"></ion-radio>
           </ion-item>
           <ion-item>
               <ion-label>
-                F
+                Mujer
               </ion-label>
-              <ion-radio></ion-radio>
+              <ion-radio value="2"></ion-radio>
             </ion-item>
         </ion-list>
           
