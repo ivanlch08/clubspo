@@ -29,7 +29,7 @@ export class AaaBackingBeanProvider {
   ) {
     console.log('Hello AaaBackingBeanProvider Provider');
     this.db = firebase.firestore();
-    this.obtenerListaDeportes();
+    //this.obtenerListaDeportes();
   }//constructor
 
   ionViewDidLoad() {

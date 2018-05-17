@@ -1,15 +1,15 @@
+<div (click)="accionSeleccion()">
 <table>
   <tr>
     <td>
-      <ion-checkbox></ion-checkbox>
+      <ion-checkbox [(ngModel)]="seleccionado"></ion-checkbox>
     </td>
     <td>
-      <ion-img width="60" height="60" src="../../assets/imgs/misteryBox.png"></ion-img>
+      <img width="60" height="60" [src]="imagen" />
     </td>
     <td>
       {{nombre}}
     </td>
   </tr>
 </table>
-
-
+</div>
