@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'seleccion-deporte',
@@ -14,6 +14,11 @@ export class SeleccionDeporteComponent {
 
   seleccionado: boolean;
 
+  estilo: string = "fondoUnselect";
+
+  @Output()
+  public childEvent = new EventEmitter();
+
   constructor() {
     console.log('Hello SeleccionDeporteComponent Component');
   }
@@ -23,8 +28,20 @@ export class SeleccionDeporteComponent {
   }
 
   accionSeleccion(){
-    console.log('click: '+this.nombre);
-    this.imagen = 'assets/imgs/misteryBox.png';
+    //console.log('click: '+this.nombre);
+    //this.imagen = 'assets/imgs/misteryBox.png';
     this.seleccionado = !this.seleccionado;
-  }
+    //cambiar estilo del componente
+    if(this.seleccionado){
+      this.estilo = "fondoSelect";
+    }else{
+      this.estilo = "fondoUnselect";
+    }
+    //enviar mensaje de la seleccion realizada al padre
+    this.childEvent.emit({
+      seleccionado: this.seleccionado, 
+      nombre: this.nombre, 
+      frecuencia: null
+    });
+  }//accionSeleccion
 }//clase

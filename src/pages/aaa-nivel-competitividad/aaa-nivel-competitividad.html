@@ -16,9 +16,14 @@
 <ion-content padding class="fondoInicial">
   <h2>¿Cual es tu nivel de competitividad?</h2>
 
-  <frec-deporte></frec-deporte>
-  <frec-deporte></frec-deporte>
-  <frec-deporte></frec-deporte>
+  <div *ngFor="let pojo of listaSeleccionados; let i = index; trackBy: trackByFn">
+      <frec-deporte 
+        [nombre]="pojo.deporte.nombre" 
+        [opciones]="listaOpciones"
+        (eliminarDep)="eliminarDeporte($event)" 
+        (checkSeleccion)="competitividadSeleccionada($event)" 
+        ></frec-deporte>
+    </div>
 
   <button ion-button full (click)="accionInteresPrincipal()">Continuar</button>
 </ion-content>

@@ -16,9 +16,14 @@
 <ion-content padding class="fondoInicial">
   <h2>¿Con qué regularidad practicas estos deportes?</h2>
 
-  <frec-deporte></frec-deporte>
-  <frec-deporte></frec-deporte>
-  <frec-deporte></frec-deporte>
-
+  <div *ngFor="let pojo of listaSeleccionados; let i = index; trackBy: trackByFn">
+    <frec-deporte 
+      [nombre]="pojo.deporte.nombre" 
+      [opciones]="listaOpciones"
+      (eliminarDep)="eliminarDeporte($event)" 
+      (checkSeleccion)="frecuenciaSeleccionada($event)" 
+      ></frec-deporte>
+  </div>
+  
   <button ion-button full (click)="accionCompetitividad()">Continuar</button>
 </ion-content>

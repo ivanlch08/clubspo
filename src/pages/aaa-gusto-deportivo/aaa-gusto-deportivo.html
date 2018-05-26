@@ -10,14 +10,14 @@
 <ion-content padding class="fondoInicial">
 
   <h2>¿Qué deporte practicas?</h2>
-
-  <div *ngFor="let deporte of listaDeportes | async">
-      <seleccion-deporte 
-      [nombre]="deporte.nombre" 
+  <div *ngFor="let pojo of aaaBackingProvider.listaPojoDeporte; let i = index; trackBy: trackByFn">
+    <seleccion-deporte 
+      [nombre]="pojo.deporte.nombre" 
       [imagen]="'assets/imgs/happyFace.png'" 
-      ></seleccion-deporte>
+      (childEvent)="recibirSeleccion($event)">
+    </seleccion-deporte>
   </div>
-
+  
   <br/>
   <button ion-button full>Mostrar más</button>
   <br/>

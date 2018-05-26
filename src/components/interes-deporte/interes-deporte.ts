@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'interes-deporte',
@@ -6,11 +6,14 @@ import { Component } from '@angular/core';
 })
 export class InteresDeporteComponent {
 
-  text: string;
+  @Input('nombre')
+  nombre: string;
+  @Input('opciones')
+  lista: Promise<any[]>;
+  listaSeleccionados: any[] = [];
 
   constructor() {
     console.log('Hello InteresDeporteComponent Component');
-    this.text = 'Hello World';
-  }
+  }//constructor
 
 }//clase

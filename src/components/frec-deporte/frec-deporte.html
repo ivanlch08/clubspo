@@ -1,9 +1,9 @@
 <div>
-  {{seleccion}}
+  {{nombre}}
+  <br/>
   <table border="1" width="100%">
     <tr>
       <td>
-
         <table>
           <tr>
             <td>
@@ -12,20 +12,24 @@
           </tr>
           <tr>
             <td>
-              <ion-img width="20" height="20" src="assets/imgs/eliminar.png"></ion-img>
+              <ion-img 
+              width="20" height="20" 
+              src="assets/imgs/eliminar.png" 
+              (click)="eliminarDeporte()"
+              ></ion-img>
             </td>
           </tr>
         </table>
         
       </td>
       <td width="100%" height="100%">
-        <ion-list radio-group [(ngModel)]="seleccion">
-          <ion-item-sliding *ngFor="let checkBool of lista">
+        <ion-list radio-group [(ngModel)]="seleccion" >
+          <ion-item-sliding *ngFor="let checkBool of lista | async">
             <ion-item>
               <ion-label>
                 {{checkBool.texto}}
               </ion-label>
-              <ion-radio value="{{checkBool.texto}}"></ion-radio>
+              <ion-radio value="{{checkBool.texto}}" (ionSelect)="checkSeleccionado()"></ion-radio>
             </ion-item>
           </ion-item-sliding>
         </ion-list>

@@ -9,13 +9,13 @@
 
 <ion-content padding class="fondoInicial">
   <h2>¿Cual es tu interés principal?</h2>
-
-  <interes-deporte></interes-deporte>
-  <br/>
-  <interes-deporte></interes-deporte>
-  <br/>
-  <interes-deporte></interes-deporte>
-  <br/>
-
+  
+  <div *ngFor="let pojo of listaSeleccionados; let i = index; trackBy: trackByFn">
+    <interes-deporte 
+    [nombre]="pojo.deporte.nombre"
+    [opciones]="listaOpciones"
+    ></interes-deporte>
+  </div>
+  
   <button ion-button full>Finalizar</button>
 </ion-content>

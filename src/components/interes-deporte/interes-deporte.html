@@ -1,36 +1,25 @@
 
-<ion-img width="60" height="60" src="assets/imgs/misteryBox.png"></ion-img>
+<table>
+  <tr>
+    <td>
+      <ion-img width="60" height="60" src="assets/imgs/misteryBox.png"></ion-img>
+    </td>
+    <td>
+      {{nombre}}
+    </td>
+  </tr>
+</table>
+
 <br/>
-<table>
+<table *ngFor="let checkBool of lista | async">
   <tr>
     <td>
       <ion-checkbox></ion-checkbox>
     </td>
     <td>
-      Encontrar con quien practicar
+        {{checkBool.texto}}
     </td>
   </tr>
 </table>
 
-<table>
-  <tr>
-    <td>
-      <ion-checkbox></ion-checkbox>
-    </td>
-    <td>
-      Entrenamiento personalizado
-    </td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td>
-      <ion-checkbox></ion-checkbox>
-    </td>
-    <td>
-      Participar en competencias
-    </td>
-  </tr>
-</table>
   

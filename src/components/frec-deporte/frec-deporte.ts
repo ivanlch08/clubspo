@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CheckBoolValor } from '../../models/checkBoolValor';
+import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-backing-bean';
 
 @Component({
   selector: 'frec-deporte',
@@ -7,26 +8,42 @@ import { CheckBoolValor } from '../../models/checkBoolValor';
 })
 export class FrecDeporteComponent {
   imagen: string;
-  deporte: string;
-  lista: CheckBoolValor[];
+  @Input('nombre')
+  nombre: string;
+  @Input('opciones')
+  lista: Promise<any[]>;
   seleccion: string;
-  constructor() {
-    console.log('Hello FrecDeporteComponent Component');
-    this.deporte = 'futbol';
-    let op1: CheckBoolValor = {
-      valor: false, 
-      texto: 'poco'
-    }
-    let op2: CheckBoolValor = {
-      valor: false, 
-      texto: 'medio'
-    }
-    let op3: CheckBoolValor = {
-      valor: false, 
-      texto: 'alto'
-    }
 
-    this.lista = [op1, op2, op3];
+  @Output('checkSeleccion')
+  public checkSeleccion = new EventEmitter();
+
+  @Output('eliminarDep')
+  public eliminarDep = new EventEmitter();
+
+  constructor(
+    private aaaBackingProvider: AaaBackingBeanProvider
+  ) {
+    console.log('Hello FrecDeporteComponent Component');
+    
   }//constructor
+
+  checkSeleccionado(){
+    //se lanza evento indicando la opcion seleccionada
+    console.log('nombre: '+this.nombre);
+    console.log('selecc: '+this.seleccion);
+    this.checkSeleccion.emit({
+      nombre: this.nombre, 
+      seleccion: this.seleccion
+    });
+  }//checkSeleccionado
+
+  eliminarDeporte(){
+    //lanzar evento indicando el deporte eliminado
+    this.eliminarDep.emit(this.nombre);
+  }//eliminarDeporte
+
+  async obtenerListaFrecuencias(){
+    return await this.aaaBackingProvider.getAllDocuments('deporteRegularidad');
+  }//obtenerListaDeportes
 
 }//clase

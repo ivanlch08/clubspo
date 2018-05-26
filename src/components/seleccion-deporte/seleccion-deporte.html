@@ -1,9 +1,6 @@
-<div (click)="accionSeleccion()">
+<div (click)="accionSeleccion()" [class]="estilo">
 <table>
   <tr>
-    <td>
-      <ion-checkbox [(ngModel)]="seleccionado"></ion-checkbox>
-    </td>
     <td>
       <img width="60" height="60" [src]="imagen" />
     </td>

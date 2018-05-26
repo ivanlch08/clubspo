@@ -17,11 +17,16 @@ export class AaaBackingBeanProvider {
   //listas
   listaDeportes: Observable<any[]>;
 
+  public listaPojoDeporte: any[] = [];
+
   //vista 1
   public paisRef: String;
   ciudadRef: String;
   fechaNacimiento: Date;
   generoRef: number;
+
+  //vista 2, gustos deportivos
+  public listaDeportesSeleccionados: any[] = [];
 
   constructor(
     public afd: AngularFireDatabase,
