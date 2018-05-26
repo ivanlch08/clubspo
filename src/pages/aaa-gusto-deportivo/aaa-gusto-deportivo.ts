@@ -33,7 +33,8 @@ export class AaaGustoDeportivoPage {
           deporte: element, 
           seleccionado: false, 
           frecuencia: null,
-          competitividad: null
+          competitividad: null, 
+          listaInteres : []
         });
       });
     });

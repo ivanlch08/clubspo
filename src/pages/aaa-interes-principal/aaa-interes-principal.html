@@ -9,11 +9,12 @@
 
 <ion-content padding class="fondoInicial">
   <h2>¿Cual es tu interés principal?</h2>
-  
+
   <div *ngFor="let pojo of listaSeleccionados; let i = index; trackBy: trackByFn">
     <interes-deporte 
     [nombre]="pojo.deporte.nombre"
-    [opciones]="listaOpciones"
+    [opciones]="listaOpciones" 
+    (selectOpcion)="registrarSeleccion($event)"
     ></interes-deporte>
   </div>
   

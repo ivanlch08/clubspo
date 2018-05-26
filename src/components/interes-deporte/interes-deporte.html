@@ -14,7 +14,7 @@
 <table *ngFor="let checkBool of lista | async">
   <tr>
     <td>
-      <ion-checkbox></ion-checkbox>
+      <ion-checkbox (ionChange)="selectOpcion($event, checkBool.texto, nombre)"></ion-checkbox>
     </td>
     <td>
         {{checkBool.texto}}

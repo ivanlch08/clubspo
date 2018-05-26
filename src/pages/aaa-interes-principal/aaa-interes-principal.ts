@@ -36,6 +36,27 @@ export class AaaInteresPrincipalPage {
     return await this.aaaBackingProvider.getAllDocuments('deporteInteres');
   }//obtenerListaDeportes
 
+  registrarSeleccion(event){
+    console.log('registrarSeleccion1: '+event);
+    console.log('registrarSeleccion2: '+ JSON.stringify(event) );
+    
+    //registrar la seleccion en el backingbean
+    let index = this.aaaBackingProvider.listaPojoDeporte.findIndex(obj => obj.deporte.nombre == event.nombre);
+    if(index != -1){
+      if( event.seleccionado ){//agregar opcion
+        this.aaaBackingProvider.listaPojoDeporte[index].listaInteres.push(event.interes);
+      }else{//eliminar opcion
+        let index2 = this.aaaBackingProvider.listaPojoDeporte[index].listaInteres.findIndex(obj => obj == event.interes);
+        if(index2 != null){
+          this.aaaBackingProvider.listaPojoDeporte[index].listaInteres.splice(index2, 1);
+        }
+      }
+      
+    }
+
+    console.log('registrarSeleccion3: '+ JSON.stringify(this.aaaBackingProvider.listaPojoDeporte) );
+  }//registrarSeleccion
+
   trackByFn(index, item){
     return index;
   }//trackByFn
