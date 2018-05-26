@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CheckBoolValor } from '../../models/checkBoolValor';
 import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-backing-bean';
 
 @Component({

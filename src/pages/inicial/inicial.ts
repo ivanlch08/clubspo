@@ -6,10 +6,9 @@ import { LoginManagerProvider } from '../../providers/login-manager/login-manage
 
 //firebase
 import { FirebaseServiceProvider } from '../../providers/firebase-service/firebase-service';
-import  firebase  from 'firebase';
 
 //para autenticacion con facebook
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { Facebook } from '@ionic-native/facebook';
 
 //navegacion
 import { AAADatosBasicosPage } from '../../pages/aaa-datos-basicos/aaa-datos-basicos';
@@ -41,69 +40,22 @@ export class InicialPage {
       email: 'ninguno', 
       username: 'ninguno'
     }
-    /*
-    this.firebaseService.registrarLog('VERIFICAR SI SE ENCUENTRA ALGUIEN AUTENTICADO');
-    this.afAuth.authState.subscribe(data => {
-      this.firebaseService.registrarLog('info inicial: '+data);
-      if(data && data.email && data.uid){
-        this.toast.create({
-          message: 'Bienvenido a Clubspo!, '+data.email+'!', 
-          duration: 4000
-        }).present();
-        this.navCtrl.setRoot(InicialPage);
-      }else{
-        this.toast.create({
-          message: 'No hay usuarios autenticados..', 
-          duration: 4000
-        }).present();
-        //nav a autenticacion
-        this.navCtrl.setRoot(HomePage);
-      }
-    } 
-    );*/
     
-    //v2
-    
-    console.log('onAuthStateChanged');
-    firebase.auth().onAuthStateChanged(this.verificarUsuario.bind(this));
-    console.log('onAuthStateChanged finish');
-    
-  }//ionViewDidLoad
+    //OBTENER EL USUARIO AUTENTICADO, O REDIRECCIONAR A LA PANTALLA DE LOGIN
+    this.loginManager.obtenerInfoUsuario().subscribe(
+      r => this.recibirInfoAuth(r)
+      , 
+      e => this.direccionarAhome(e)
+      );
+  }//ionViewDidLoad 
 
-  verificarUsuario(user){
-    console.log('metodo verificarUsuario');
-    if(user){
-      console.log('usuario autenticado');
-      //console.log(user);
-      this.cargarInfoUsuario();
-    }else{
-      console.log('NO se encuentra autenticado');
-      this.navCtrl.setRoot(HomePage);
-    }
-  }//verificarUsuario
+  recibirInfoAuth(result){
+    this.userData = result;
+  }//recibirInfoAuth
 
-  cargarInfoUsuario(){
-    var usuario = firebase.auth().currentUser;
-    if(usuario != null){
-      //user.pro
-      usuario.providerData.forEach(this.obtenerInfoProvider.bind(this));
-    }
-  }//cargarInfoUsuario
-
-  obtenerInfoProvider(profile){
-    console.info('SingIn provider: '+profile.providerId);
-      console.info('provider specific uid: '+profile.uid);
-      console.info('Name: '+profile.displayName);
-      console.info('email: '+profile.email);
-      console.info('Photo: '+profile.photoURL);
-      //CARGAR INFO
-      this.userData = {
-        email: profile.email, 
-        username: profile.displayName, 
-        picture: profile.photoURL, 
-        first_name: profile.displayName 
-      }
-  }//obtenerInfoProvider
+  direccionarAhome(result){
+    this.navCtrl.setRoot(HomePage);
+  }//direccionarAhome
 
   logout(){
     //verificar

@@ -83,7 +83,33 @@ export class AaaBackingBeanProvider {
             .catch((error: any) => {
                 reject(error);
             });
+      });
+  }
+
+  registrarInfo(info, usuario){
+    console.log('registrando usuario...');
+    //let rid: string = ''+Math.random()*100000;
+    console.log('id aleatorio: '+usuario.uid);
+    
+    /*
+    //v2 
+    let data = {
+      displayName: user.nombre,
+      email: user.email
+    };
+    
+    this.afstore.firestore.collection('usuarios').doc(user.uid).set(data)
+    .then(userRef => {
+      this.afstore.firestore.collection('usuarios').doc(user.uid).collection('registro').add({
+        notificadoPorCorreo: 'no'
+      }).then(result => {
+        console.log('registro correo creado!');
+      }).catch(function(err){
+        console.log('error creando correo: '+err);
+      })
     });
-}
+    */
+    console.log('info adicional registrada!');
+  }//registrarUsuario
   
 }//clase

@@ -47,7 +47,7 @@ export class AaaInteresPrincipalPage {
         this.aaaBackingProvider.listaPojoDeporte[index].listaInteres.push(event.interes);
       }else{//eliminar opcion
         let index2 = this.aaaBackingProvider.listaPojoDeporte[index].listaInteres.findIndex(obj => obj == event.interes);
-        if(index2 != null){
+        if(index2 != -1){
           this.aaaBackingProvider.listaPojoDeporte[index].listaInteres.splice(index2, 1);
         }
       }
@@ -60,5 +60,12 @@ export class AaaInteresPrincipalPage {
   trackByFn(index, item){
     return index;
   }//trackByFn
+
+  accionFinalizar(){
+    //GUARDAR INFO EN BASE DE DATOS
+    //1. guardar deportes seleccionados en tabla 'registro_deporte'
+    
+
+  }//accionFinalizar
 
 }//clase
