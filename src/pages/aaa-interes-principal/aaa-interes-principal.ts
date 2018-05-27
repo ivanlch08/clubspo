@@ -63,9 +63,9 @@ export class AaaInteresPrincipalPage {
 
   accionFinalizar(){
     //GUARDAR INFO EN BASE DE DATOS
-    //1. guardar deportes seleccionados en tabla 'registro_deporte'
-    
-
+    console.log('va a guardar info...');
+    this.aaaBackingProvider.registrarInfo();
+    console.log('info guardada!');
   }//accionFinalizar
 
 }//clase

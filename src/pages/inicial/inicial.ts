@@ -12,6 +12,7 @@ import { Facebook } from '@ionic-native/facebook';
 
 //navegacion
 import { AAADatosBasicosPage } from '../../pages/aaa-datos-basicos/aaa-datos-basicos';
+import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-backing-bean';
 
 @Component({
   selector: 'page-inicial',
@@ -28,6 +29,7 @@ export class InicialPage {
     private toast: ToastController, 
     private loginManager: LoginManagerProvider, 
     private facebook:Facebook,
+    private aaaBackingProvider: AaaBackingBeanProvider,
     public firebaseService: FirebaseServiceProvider 
   ) {
   }
@@ -78,4 +80,7 @@ export class InicialPage {
     this.navCtrl.push(AAADatosBasicosPage);
   }//accionIniciarAAA
 
+  pruebaRegistro(){
+    this.aaaBackingProvider.registrarInfo();
+  }//pruebaRegistro
 }//clase
