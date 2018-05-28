@@ -90,17 +90,90 @@ export class AaaBackingBeanProvider {
 
   registrarInfo(){
     console.log('registrando usuario...');
+    this.prepararInformacionRegistro()
+    .then(res => {
+      console.log('a insertar info: '+res);
+    })
+    .then(res => {
+      //CONSULTAR FK DE REGISTRO_USUARIO
+      return this.consultarDocumento('registroUsuario', 'fkUsuario', '==', '/usuarios/'+this.loginManager.userData.uid).then(res => {
+        return res;
+      })
+    })
+    .then(res => {
+      //REGISTRAR EN TABLA REGISTRO DEPORTE
+      //console.log('res: '+ JSON.stringify(res) );
+      this.listaPojoDeporte.filter(row => row.seleccionado == true).forEach(async row => {
+        await this.registrarDeporte(row, res)
+        .then(x => {
+          //console.log('uuuultimo1: '+res);
+          //REGISTRAR EL LISTADO DE INTERESES POR CADA DEPORTE
+          this.registrarInteres(row, x).then(x2 => {
+            //console.log('interes registrado: '+x2);
+          });
+        });
+      });
+    })
+    .catch(err => {
+      console.error('eror: '+err);
+    });
+  }//registrarInfo
 
-    //1. guardar deportes seleccionados en tabla 'registro_deporte'
-    
-    let prom = Promise.resolve('done').then(val => {
+  registrarInteres(pojoDeporte: any, _fkRegistroDeporte: any): Promise<any>{
+    //CREA UN LISTADO DE INTERESES PARA CADA REGISTRO_DEPORTE
+    let promise = new Promise((resolve, reject) => {
+      pojoDeporte.listaInteres.forEach(element => {
+        //preparar entity
+        let data = {
+          fkRegistroDeporte: _fkRegistroDeporte, 
+          fkInteres: element
+        }
+        this.insertarObjeto('registro_interes', data, null).then(r => {
+          //console.log('registro int: '+r);
+        })
+      });
+    });
+    return promise;
+  }//registrarInteres
 
+  registrarDeporte(pojoDeporte: any, registroUsuario: any): Promise<any>{
+    //CREA UN REGISTRO EN LA TABLA REGISTRO_DEPORTE
+    let promise = new Promise((resolve, reject) => {
+      //registro_deporte
+      console.log('registrando deporte; '+pojoDeporte.deporte.nombre);
+      
+      let data = {
+        fkDeporte: pojoDeporte.deporte.$key, 
+        fkRegistroUsuario: registroUsuario.$key, 
+        fkCompetitividad: pojoDeporte.competitividad, 
+        fkRegularidad: pojoDeporte.frecuencia
+      }
+      //v0
+      /*resolve(
+        this.insertarObjeto('registro_deporte', data, null).then(r => {
+          console.log('registro1: '+r);
+          return r;
+        })
+      );*/
+      //v1
+      this.insertarObjeto('registro_deporte', data, null).then(r => {
+        console.log('registro1: '+r);
+        resolve(r);
+      })
+    });
+    return promise;
+  }//registrarDeporte
+
+  prepararInformacionRegistro(): Promise<any>{
+    //SE ENCARGA DE VERIFICAR Y DEJAR UN REGISTRO EN LA TABLA USUARIO Y EN LA TABLA REGISTRO_USUARIO
+    let promise = new Promise((resolve, reject) => {
       //verificar si existe un registro en la tabla registro usuario y obtenerlo, si no, crearlo
       this.consultarObjetoPorId('usuarios', '==', this.loginManager.userData.uid).then(res => {
-        console.log('res: '+ JSON.stringify(res) );
+        console.log('prepararInformacionRegistro.res: '+ JSON.stringify(res) );
         return 'usuario ya existe';
       }).catch(e => {
-        console.log('error: '+e);
+        //no existe el usuario, se va a registrar en la tabla de usuarios
+        console.log('prepararInformacionRegistro.error: '+e);
         let data = {
           ciudad: 'pend', 
           displayName: this.loginManager.userData.username, 
@@ -110,29 +183,61 @@ export class AaaBackingBeanProvider {
           pais: 'pend', 
           username: this.loginManager.userData.username 
         };
-        //crear registro en tabla usuarios
         return this.insertarObjeto('usuarios', data, this.loginManager.userData.uid).then(res => {
           return 'usuario creado';
         });
       }).then(val => {
-        //preparar entity 'registroUsuario' y hacer registro
-        console.log('crear entity: '+val);
-        let data = {
-          finalizado: true, 
-          fkUsuario: '/usuarios/'+this.loginManager.userData.uid, 
-          pasoRegistro: 0 
-        };
-        return this.insertarObjeto('registroUsuario', data, null).then(res => {
-          return res;
+        //verificar si existe 'registroUsuario'
+        this.consultarDocumento('registroUsuario', 'fkUsuario', '==', '/usuarios/'+this.loginManager.userData.uid).then(res => {
+          console.log('prepararInformacionRegistro.res: '+ JSON.stringify(res) );
+          return 'registro existe';
+        }).catch(err => {
+          //no existe el registro, se va a crear en la tabla de registroUsuario
+          console.log('prepararInformacionRegistro.crear entity: '+val);
+          let data = {
+            finalizado: true, 
+            fkUsuario: '/usuarios/'+this.loginManager.userData.uid, 
+            pasoRegistro: 0 
+          };
+          return this.insertarObjeto('registroUsuario', data, null).then(res => {
+            return res;
+          });
+        }).then(res => {
+          resolve('informacion preparada!: '+res);
         });
       });
     });
     
-    console.log('info adicional registrada!');
-  }//registrarUsuario
+    console.log('prepararInformacionRegistro.tablas usuario y registro_usuario preparadas!');
+    return promise;
+  }//prepararInformacionRegistro.
   
   insertarObjeto(coleccion: string, data: any, customId: string): Promise<any> {
     let promise = new Promise((resolve, reject) => {
+      console.log('-a');
+      let ref = null;
+      if(customId != null){
+        ref = this.db.collection(coleccion).doc(customId).set(data);
+      }else{
+        ref = this.db.collection(coleccion).add(data);
+      }
+      ref.then(x => {
+        console.log('-b');
+        if(customId != null){
+          console.log('-c');
+          resolve(customId);
+        }else{
+          console.log('-d');
+          resolve(x.id);
+        }
+      });
+    });
+    return promise;
+  }//insertarObjeto
+
+  insertarObjeto2(coleccion: string, data: any, customId: string): Promise<any> {
+    let promise = new Promise((resolve, reject) => {
+      console.log('-a');
       let ref = null;
       if(customId != null){
         ref = this.db.collection(coleccion).doc(customId).set(data);
@@ -140,17 +245,20 @@ export class AaaBackingBeanProvider {
         ref = this.db.collection(coleccion).add(data);
       }
       ref.then(res => {
+        console.log('-b');
         //se retorna id de la referencia creada
         if(customId != null){
+          console.log('-c');
           resolve(customId);
         }else{
+          console.log('-d');
           resolve(res.id);
         }
         
       });
+      console.log('-e');
     });
     return promise;
-    //this.afstore.firestore.collection('usuarios').doc(user.uid).collection('registro').add({
   }//insertarObjeto
 
   consultarObjetoPorId(coleccion: string, operador: string, id: string): Promise<any>{
@@ -165,10 +273,10 @@ export class AaaBackingBeanProvider {
             obj.$key = doc.id;
           });
           if(obj != null){
-            console.log('va a resolver');
+            console.log('existe: '+JSON.stringify(obj));
             resolve(obj);
           }else{
-            console.log('va a hacer reject');
+            console.error('no existe registro: '+coleccion+'/'+id);
             reject('no existe registro');
           }
         }
@@ -176,5 +284,29 @@ export class AaaBackingBeanProvider {
     });
     return promise;
   }//consultarObjetoPorId
+
+  consultarDocumento(coleccion: string, campo: string, operador: string, valor: string): Promise<any>{
+    //METODO ENCARGADO DE CONSULTAR UN SOLO DOCUMENTO
+    let promise = new Promise((resolve, reject) => {
+      let refColeccion = this.db.collection(coleccion);
+      refColeccion.where(campo, operador, valor).get().then(
+        resultList => {
+          var obj = null;
+          resultList.forEach(doc => {
+            obj = JSON.parse(JSON.stringify(doc.data()));
+            obj.$key = doc.id;
+          });
+          if(obj != null){
+            console.log('existe: '+JSON.stringify(obj));
+            resolve(obj);
+          }else{
+            console.error('no existe registro: '+coleccion+'/'+campo+'/'+valor);
+            reject('no existe registro');
+          }
+        }
+      );
+    });
+    return promise;
+  }//consultarDocumento
 
 }//clase

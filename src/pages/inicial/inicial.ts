@@ -81,6 +81,59 @@ export class InicialPage {
   }//accionIniciarAAA
 
   pruebaRegistro(){
-    this.aaaBackingProvider.registrarInfo();
+    let data = {
+      nombre: 'abc'
+    }
+    this.pruebaListaPromesas().then(x => {
+      this.aaaBackingProvider.insertarObjeto('temporal', data, null).then(x => {
+        console.log('info registrada: '+x);
+      })
+    }
+    ).then(x => {
+      console.log('ultimo: '+x);
+    });
+    //this.pruebaListaToPromises();
   }//pruebaRegistro
+
+  pruebaListaToPromises(){
+    console.log('uno');
+    this.pruebaListaPromesas()
+    .then(r => console.log('r: '+r))
+    .then(r => console.log('dos'))
+    .then(r => console.log('tres'))
+    .then(r => {
+      console.log('A')
+      let arr = [1, 2, 3, 4, 5];
+      arr.forEach(element => {
+        this.aaaBackingProvider.insertarObjeto('temporal', {nombre:'def'}, null).then(x => {
+          console.log('--AB--'+x)
+        });
+      });
+      console.log('B')
+    })
+    .then(r => console.log('cinco'))
+    ;
+  }//pruebaListaToPromises
+
+  pruebaListaPromesas(): Promise<any>{
+    let arr = [1, 2, 3, 4, 5];
+    let promise = new Promise((resolve, reject) => {
+      //setTimeout( () => console.log('val'), 2000 );
+      console.log('ini');
+      arr.forEach(async element => {
+        await this.pruebaLog(element);
+      });
+      resolve('fin p');
+    });
+    return promise;
+  }//pruebaListaPromesas
+
+  pruebaLog(val: number): Promise<any>{
+    let promise = new Promise((resolve, reject) => {
+      //setTimeout( () => console.log(val), 1000 );
+      console.log(val);
+      resolve(val);
+    });
+    return promise;
+  }
 }//clase
