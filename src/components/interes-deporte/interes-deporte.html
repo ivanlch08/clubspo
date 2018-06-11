@@ -11,13 +11,13 @@
 </table>
 
 <br/>
-<table *ngFor="let checkBool of lista | async">
+<table *ngFor="let pojo of lista | async">
   <tr>
     <td>
-      <ion-checkbox (ionChange)="selectOpcion($event, checkBool.texto, nombre)"></ion-checkbox>
+      <ion-checkbox (ionChange)="selectOpcion($event, pojo.$key, nombre)"></ion-checkbox>
     </td>
     <td>
-        {{checkBool.texto}}
+        {{pojo.texto}}
     </td>
   </tr>
 </table>

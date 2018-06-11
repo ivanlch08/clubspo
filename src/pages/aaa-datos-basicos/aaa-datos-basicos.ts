@@ -20,6 +20,10 @@ export class AAADatosBasicosPage {
 
   mensajeError: String;
 
+  listaPaises: any[];
+  listaCiudades: any[];
+  listaGeneros: any[];
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -29,7 +33,24 @@ export class AAADatosBasicosPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AAADatosBasicosPage');
-  }
+    
+    //CARGAR LISTA DE PAISES
+    this.aaaBackingProvider.getAllDocuments('pais').then(res => {
+      this.listaPaises = res;
+    });
+
+    //CARGAR LISTA DE GENEROS
+    this.aaaBackingProvider.getAllDocuments('genero').then(res => {
+      this.listaGeneros = res;
+    });
+
+  }//ionViewDidLoad
+
+  refrescarCiudad(event){
+    this.aaaBackingProvider.consultarListaDocumentos('ciudad', 'fk_pais', '==', event).then(res => {
+      this.listaCiudades = res;
+    });
+  }//refrescarCiudad
 
   guardarInfo(): boolean{
     //validar info
@@ -51,7 +72,7 @@ export class AAADatosBasicosPage {
       conError = true;
       this.mensajeError += 'Ingresa un género. ';
     }
-    conError = false;//QUITAR
+    
     if(conError){
       return false;
     }

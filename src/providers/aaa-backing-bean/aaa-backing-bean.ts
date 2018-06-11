@@ -109,7 +109,7 @@ export class AaaBackingBeanProvider {
           //console.log('uuuultimo1: '+res);
           //REGISTRAR EL LISTADO DE INTERESES POR CADA DEPORTE
           this.registrarInteres(row, x).then(x2 => {
-            //console.log('interes registrado: '+x2);
+            console.log('interes registrado: '+x2);
           });
         });
       });
@@ -175,12 +175,12 @@ export class AaaBackingBeanProvider {
         //no existe el usuario, se va a registrar en la tabla de usuarios
         console.log('prepararInformacionRegistro.error: '+e);
         let data = {
-          ciudad: 'pend', 
+          ciudad: this.ciudadRef, 
           displayName: this.loginManager.userData.username, 
           email: this.loginManager.userData.email, 
-          fechaNacimiento: 'pend', 
-          genero: 1, 
-          pais: 'pend', 
+          fechaNacimiento: this.fechaNacimiento, 
+          genero: this.generoRef, 
+          pais: this.paisRef, 
           username: this.loginManager.userData.username 
         };
         return this.insertarObjeto('usuarios', data, this.loginManager.userData.uid).then(res => {
@@ -309,4 +309,32 @@ export class AaaBackingBeanProvider {
     return promise;
   }//consultarDocumento
 
+  consultarListaDocumentos(coleccion: string, campo: string, operador: string, valor: string): Promise<any>{
+    return new Promise((resolve, reject) => {
+        this.db.collection(coleccion).where(campo, operador, valor)
+            .get()
+            .then((querySnapshot) => {
+                let arr = [];
+                querySnapshot.forEach(function (doc) {
+                    var obj = JSON.parse(JSON.stringify(doc.data()));
+                    obj.$key = doc.id
+                    console.log(obj)
+                    arr.push(obj);
+                });
+ 
+                if (arr.length > 0) {
+                    console.log("Document data:", arr);
+                    resolve(arr);
+                } else {
+                    console.log("No such document!");
+                    resolve(null);
+                }
+ 
+ 
+            })
+            .catch((error: any) => {
+                reject(error);
+            });
+      });
+  }
 }//clase

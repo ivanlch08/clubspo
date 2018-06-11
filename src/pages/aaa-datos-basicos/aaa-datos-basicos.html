@@ -9,56 +9,61 @@
 
 <ion-content padding class="fondoInicial">
   {{mensajeError}}
-  <table border="1">
+  <table border="1" style="width: 100%">
     <tr>
-      <td>
-        País:
-      </td>
-      <td>
-        <ion-input type="text" [(ngModel)]="paisRef"></ion-input>
+      <td colspan="2">
+        <ion-list>
+          <ion-item>
+            <ion-label>País: </ion-label>
+            <ion-select [(ngModel)]="paisRef" okText="Ok" cancelText="Cancelar" (ionChange)="refrescarCiudad($event)">
+              <div *ngFor="let pojoPais of listaPaises">
+                  <ion-option value="{{pojoPais.$key}}">{{pojoPais.nombre}}</ion-option>
+              </div>
+            </ion-select>
+          </ion-item>
+        </ion-list>
       </td>
     </tr>
+
     <tr>
-      <td>
-        Ciudad:
-      </td>
-      <td>
-        <ion-input type="text" [(ngModel)]="ciudadRef"></ion-input>
+      <td colspan="2">
+        <ion-list>
+          <ion-item>
+            <ion-label>Ciudad: </ion-label>
+            <ion-select [(ngModel)]="ciudadRef" okText="Ok" cancelText="Cancelar">
+                <div *ngFor="let pojoCiudad of listaCiudades">
+                  <ion-option value="{{pojoCiudad.$key}}">{{pojoCiudad.nombre}}</ion-option>
+                </div>
+            </ion-select>
+          </ion-item>
+        </ion-list>
       </td>
     </tr>
+
     <tr>
-      <td>
-        Fecha<br/>nacimiento:
+      <td colspan="2">
+        <ion-list>
+          <ion-item>
+            <ion-label>Género: </ion-label>
+            <ion-select [(ngModel)]="generoRef" okText="Ok" cancelText="Cancelar">
+              <div *ngFor="let pojoGenero of listaGeneros">
+                <ion-option value="{{pojoGenero.$key}}">{{pojoGenero.texto}}</ion-option>
+              </div>
+            </ion-select>
+          </ion-item>
+        </ion-list>
       </td>
-      <td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
         <ion-item>
+          <ion-label>fecha nacimiento: </ion-label>
           <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="fechaNacimiento"></ion-datetime>
         </ion-item>
       </td>
     </tr>
-    <tr>
-      <td>
-        Género:
-      </td>
-      <td>
-        
-        <ion-list radio-group [(ngModel)]="generoRef">
-          <ion-item>
-            <ion-label>
-              Hombre
-            </ion-label>
-            <ion-radio value="1"></ion-radio>
-          </ion-item>
-          <ion-item>
-              <ion-label>
-                Mujer
-              </ion-label>
-              <ion-radio value="2"></ion-radio>
-            </ion-item>
-        </ion-list>
-          
-      </td>
-    </tr>
+    
   </table>
   
   <br/><br/>
