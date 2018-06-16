@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-backing-bean';
+import { InicialPage } from '../inicial/inicial';
 
 @Component({
   selector: 'page-aaa-interes-principal',
   templateUrl: 'aaa-interes-principal.html',
 })
 export class AaaInteresPrincipalPage {
+
+  mensajeError:string = "";
+  mostrarBoton:boolean = true;
 
   public listaSeleccionados: any[];
   public listaOpciones: Promise<any[]>;
@@ -62,10 +66,37 @@ export class AaaInteresPrincipalPage {
   }//trackByFn
 
   accionFinalizar(){
+    //VALIDACIONES
+    let error:boolean = false;
+    this.aaaBackingProvider.listaPojoDeporte.forEach(element => {
+      //verificar si es de los seleccionados por el usuario
+      let index = this.listaSeleccionados.findIndex(obj => obj.deporte.nombre == element.deporte.nombre);
+      if( index != -1 ){
+        if(element.listaInteres && element.listaInteres.length){
+          //no esta vacio
+        }else{
+          //esta vacio
+          error = true;
+        }
+      }
+    });
+
+    if(error){
+      //no se ha seleccionado nada
+      this.mensajeError = "Debes seleccionar al menos un interés por deporte.";
+      return;
+    }
+
+    //OCULTAR BOTON DE REGISTRO
+    this.mostrarBoton = false;
+    
     //GUARDAR INFO EN BASE DE DATOS
     console.log('va a guardar info...');
-    this.aaaBackingProvider.registrarInfo();
-    console.log('info guardada!');
+    this.aaaBackingProvider.registrarInfo().subscribe(res => {
+      this.navCtrl.setRoot(InicialPage);
+      console.log('info guardada!');
+    });
+    
   }//accionFinalizar
 
 }//clase

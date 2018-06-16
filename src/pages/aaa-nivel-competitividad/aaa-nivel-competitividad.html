@@ -15,7 +15,7 @@
 
 <ion-content padding class="fondoInicial">
   <h2>¿Cual es tu nivel de competitividad?</h2>
-
+  {{mensajeError}}
   <div *ngFor="let pojo of listaSeleccionados; let i = index; trackBy: trackByFn">
       <frec-deporte 
         [nombre]="pojo.deporte.nombre" 

@@ -10,8 +10,9 @@ import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-bac
   templateUrl: 'aaa-gusto-deportivo.html',
 })
 export class AaaGustoDeportivoPage {
-  //public listaPojoDeporte: any[] = [];
-  
+
+  mensajeError:string = "";
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -50,8 +51,18 @@ export class AaaGustoDeportivoPage {
     modal.present();
   }
   accionFrecuencia(){
-    //agregar al backingBean los deportes seleccionados
-    this.navCtrl.push(AaaFrecuenciaPage);
+    this.mensajeError = "";
+
+    //VERIFICAR SI EL USUARIO SELECCIONÓ ALGUNA OPCIÓN
+    let index = this.aaaBackingProvider.listaPojoDeporte.findIndex(obj => obj.seleccionado == true);
+    if( index != -1 ){
+      //se seleccionó al menos uno
+      this.navCtrl.push(AaaFrecuenciaPage);
+    }else{
+      //no se ha seleccionado nada
+      this.mensajeError = "Debes seleccionar al menos un deporte.";
+    }
+    
   }//accionFrecuencia
 
   recibirSeleccion(event){

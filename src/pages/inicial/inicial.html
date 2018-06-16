@@ -25,6 +25,10 @@ pagina inicial
 <br/>
 
 <button ion-button full (click)="logout()">Cerrar sesión</button>
-<button ion-button full (click)="accionIniciarAAA()">Ingresar info</button>
+<button ion-button full (click)="accionIniciarAAA()" *ngIf="habilitarRegistro">Ingresar info básica</button>
+<br/>
+<div *ngIf="!habilitarRegistro">
+    Información básica de registro diligenciada.
+</div>
 
 </ion-content>

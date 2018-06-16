@@ -13,6 +13,10 @@ import { Facebook } from '@ionic-native/facebook';
 //navegacion
 import { AAADatosBasicosPage } from '../../pages/aaa-datos-basicos/aaa-datos-basicos';
 import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-backing-bean';
+//import { Observable } from '@firebase/util';
+import { Observable } from 'rxjs/Rx';
+
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'page-inicial',
@@ -21,6 +25,8 @@ import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-bac
 export class InicialPage {
 
   userData = null;
+
+  habilitarRegistro: boolean = false;
 
   constructor(
     public navCtrl: NavController, 
@@ -32,6 +38,7 @@ export class InicialPage {
     private aaaBackingProvider: AaaBackingBeanProvider,
     public firebaseService: FirebaseServiceProvider 
   ) {
+    this.db = firebase.firestore();
   }
 
   //ionViewDidLoad() {
@@ -45,11 +52,40 @@ export class InicialPage {
     
     //OBTENER EL USUARIO AUTENTICADO, O REDIRECCIONAR A LA PANTALLA DE LOGIN
     this.loginManager.obtenerInfoUsuario().subscribe(
-      r => this.recibirInfoAuth(r)
+      r => {
+        this.recibirInfoAuth(r);
+        this.verificarRegistroBasico().subscribe(regCompleto => {
+          if( regCompleto ){
+            this.habilitarRegistro = true;
+          }else{
+            this.habilitarRegistro = false;
+          }
+        });
+      }
       , 
       e => this.direccionarAhome(e)
       );
   }//ionViewDidLoad 
+
+  //verifica si el usuario ya registró la información básica, para así habilitarle
+  //el CUAAA para diligenciar la información básica
+  verificarRegistroBasico(): Observable<any> {
+    const varObservable  = new Observable((observer) => {
+      this.aaaBackingProvider.consultarDocumento('registroUsuario', 'fkUsuario', '==', '/usuarios/'+this.loginManager.userData.uid).then(res => {
+        if( res.pasoRegistro == 0 ){
+          observer.next(true);
+        }else{
+          observer.next(false);
+        }
+        observer.complete();
+      }).catch(err => {
+        observer.next(true);
+        observer.complete();
+      });
+    });
+
+    return varObservable;
+  }//verificarRegistroBasico
 
   recibirInfoAuth(result){
     this.userData = result;
@@ -136,4 +172,26 @@ export class InicialPage {
     });
     return promise;
   }
+
+  private db: any;
+  pruebaCambioEstado(){
+    //CAMBIAR EL ESTADO DE LA BANDERA DE REGISTRO
+      //1. obtener el registro de la bd
+      //2. cambiar el atributo
+      //3. volver a guardar el atributo
+      console.log('buscando registro...');
+      this.aaaBackingProvider.consultarDocumento('registroUsuario', 'fkUsuario', '==', '/usuarios/'+this.loginManager.userData.uid).then(res => {
+        console.log('cambiando estado...');
+        console.log('reg: '+res);
+        if( res.pasoRegistro == 0 ){
+          res.pasoRegistro = 1;
+        }else{
+          res.pasoRegistro = 0;
+        }
+        console.log('guardando cambio...');
+        this.aaaBackingProvider.actualizarDocumento('registroUsuario', res.$key, res).subscribe(r => {
+          console.log('actualizado!');
+        });
+      });
+  }//metodo prueba
 }//clase

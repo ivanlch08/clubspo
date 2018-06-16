@@ -1,7 +1,8 @@
 //import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+//import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 
@@ -88,35 +89,56 @@ export class AaaBackingBeanProvider {
       });
   }
 
-  registrarInfo(){
-    console.log('registrando usuario...');
-    this.prepararInformacionRegistro()
-    .then(res => {
-      console.log('a insertar info: '+res);
-    })
-    .then(res => {
-      //CONSULTAR FK DE REGISTRO_USUARIO
-      return this.consultarDocumento('registroUsuario', 'fkUsuario', '==', '/usuarios/'+this.loginManager.userData.uid).then(res => {
-        return res;
+  registrarInfo(): Observable<any>{
+    const primerObs = new Observable((observer) => {
+      console.log('registrando usuario...');
+      this.prepararInformacionRegistro()
+      .then(res => {
+        console.log('a insertar info: '+res);
       })
-    })
-    .then(res => {
-      //REGISTRAR EN TABLA REGISTRO DEPORTE
-      //console.log('res: '+ JSON.stringify(res) );
-      this.listaPojoDeporte.filter(row => row.seleccionado == true).forEach(async row => {
-        await this.registrarDeporte(row, res)
-        .then(x => {
-          //console.log('uuuultimo1: '+res);
-          //REGISTRAR EL LISTADO DE INTERESES POR CADA DEPORTE
-          this.registrarInteres(row, x).then(x2 => {
-            console.log('interes registrado: '+x2);
+      .then(res => {
+        //CONSULTAR FK DE REGISTRO_USUARIO
+        return this.consultarDocumento('registroUsuario', 'fkUsuario', '==', '/usuarios/'+this.loginManager.userData.uid).then(res => {
+          return res;
+        })
+      })
+      .then(res => {
+        //REGISTRAR EN TABLA REGISTRO DEPORTE
+        //console.log('res: '+ JSON.stringify(res) );
+        this.listaPojoDeporte.filter(row => row.seleccionado == true).forEach(async row => {
+          await this.registrarDeporte(row, res)
+          .then(x => {
+            //console.log('uuuultimo1: '+res);
+            //REGISTRAR EL LISTADO DE INTERESES POR CADA DEPORTE
+            this.registrarInteres(row, x).then(x2 => {
+              console.log('interes registrado: '+x2);
+            });
           });
         });
+      }).then(res => {
+        //CAMBIAR EL ESTADO DE LA BANDERA DE REGISTRO
+        //1. obtener el registro de la bd
+        //2. cambiar el atributo
+        //3. volver a guardar el atributo
+        this.consultarDocumento('registroUsuario', 'fkUsuario', '==', '/usuarios/'+this.loginManager.userData.uid).then(res => {
+          console.log('cambiando estado...');
+            res.pasoRegistro = 1;
+          console.log('guardando cambio...');
+          this.actualizarDocumento('registroUsuario', res.$key, res).subscribe(r => {
+            //FINALIZAR OBSERVABLE
+            observer.next(true);
+            observer.complete();
+          });
+        });
+      })
+      .catch(err => {
+        console.error('eror: '+err);
+        observer.next(false);
+          observer.complete();
       });
-    })
-    .catch(err => {
-      console.error('eror: '+err);
     });
+
+    return primerObs;
   }//registrarInfo
 
   registrarInteres(pojoDeporte: any, _fkRegistroDeporte: any): Promise<any>{
@@ -337,4 +359,27 @@ export class AaaBackingBeanProvider {
             });
       });
   }
+
+  actualizarDocumento(coleccion: string, id: string, data: string): Observable<any> {
+    const primerObs = new Observable((observer) => {
+
+      let refDoc = this.db.collection(coleccion).doc(id);
+      refDoc.get()
+      .then(doc => {
+        if( doc ){
+          console.log('doc: '+doc);
+          refDoc.update(data);
+          console.log('actualizado');
+          observer.next(true);
+          observer.complete();
+        }else{
+          console.error('no existe el documento');
+          observer.next(false);
+          observer.complete();
+        }
+      });
+    });
+    return primerObs;
+  }//actualizarDocumento
+
 }//clase

@@ -9,6 +9,8 @@ import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-bac
 })
 export class AaaFrecuenciaPage {
 
+  mensajeError: string = "";
+  
   public listaSeleccionados: any[];
   public listaOpciones: Promise<any[]>;
 
@@ -74,7 +76,22 @@ export class AaaFrecuenciaPage {
   }
 
   accionCompetitividad(){
-    this.navCtrl.push(AaaNivelCompetitividadPage);
+    //VALIDAR SI SE SELECCIONÓ ALGUNO
+    let error: boolean = false;
+
+    this.listaSeleccionados.forEach(element => {
+      if( element.frecuencia == null ){
+        error = true;
+      }
+    });
+
+    if( error ){
+      //no se ha seleccionado nada
+      this.mensajeError = "Debes seleccionar una opción para cada deporte.";
+    }else{
+      this.navCtrl.push(AaaNivelCompetitividadPage);
+    }
+    
   }//accionCompetitividad
 
 }//clase
