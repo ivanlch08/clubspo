@@ -39,6 +39,7 @@ import { AaaInteresPrincipalPage } from '../pages/aaa-interes-principal/aaa-inte
 import { FrecDeporteComponent } from '../components/frec-deporte/frec-deporte';
 import { SeleccionDeporteComponent } from '../components/seleccion-deporte/seleccion-deporte';
 import { InteresDeporteComponent } from '../components/interes-deporte/interes-deporte';
+import { TarjetaNoticiaComponent } from '../components/tarjeta-noticia/tarjeta-noticia';
 
 //providers
 import { AaaBackingBeanProvider } from '../providers/aaa-backing-bean/aaa-backing-bean';
@@ -71,7 +72,8 @@ const firebaseConfig = {
     //COMPONENTES
     FrecDeporteComponent, 
     SeleccionDeporteComponent,
-    InteresDeporteComponent
+    InteresDeporteComponent, 
+    TarjetaNoticiaComponent
   ],
   imports: [
     BrowserModule,
@@ -101,7 +103,8 @@ const firebaseConfig = {
     //COMPONENTES
     FrecDeporteComponent, 
     SeleccionDeporteComponent, 
-    InteresDeporteComponent
+    InteresDeporteComponent,
+    TarjetaNoticiaComponent
   ],
   providers: [
     StatusBar,

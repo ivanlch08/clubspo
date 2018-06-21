@@ -1,7 +1,30 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>inicial</ion-title>
+      <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-avatar item-start *ngIf="userData.picture != null">
+                <img [src]="userData.picture" /> 
+                </ion-avatar>
+                <ion-avatar item-start *ngIf="userData.picture == null">
+                  <img src="../../assets/imgs/happyFace.png" />
+                </ion-avatar>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear>
+              <ion-icon name="bonfire"></ion-icon>
+              <div>4</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear (click)="logout()">
+                <ion-icon name="exit"></ion-icon>
+                <div>Salir</div>
+              </button>
+          </ion-col>
+        </ion-row>
   </ion-navbar>
 
 </ion-header>
@@ -10,25 +33,18 @@
 <ion-content padding class="fondoInicial">
 pagina inicial
 <br/>
+{{  userData.username }}
+<p>Email: {{ userData.email }}</p>
+<p>Nombre: {{ userData.first_name }}</p>
 <br/>
-<div class="centro">
-  <ion-card *ngIf="userData">
-    <ion-card-header>{{  userData.username }}</ion-card-header>
-    <img [src]="userData.picture" />
-    <ion-card-content>
-      <p>Email: {{ userData.email }}</p>
-      <p>Nombre: {{ userData.first_name }}</p>
-    </ion-card-content>
-  </ion-card>
-</div>
-<br/>
-<br/>
-
-<button ion-button full (click)="logout()">Cerrar sesión</button>
 <button ion-button full (click)="accionIniciarAAA()" *ngIf="habilitarRegistro">Ingresar info básica</button>
-<br/>
 <div *ngIf="!habilitarRegistro">
     Información básica de registro diligenciada.
 </div>
+<br/>
+
+<tarjeta-noticia text="uno"></tarjeta-noticia>
+<tarjeta-noticia text="dos"></tarjeta-noticia>
+<tarjeta-noticia text="tres"></tarjeta-noticia>
 
 </ion-content>

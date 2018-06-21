@@ -83,6 +83,7 @@ export class HomePage {
     firebase.auth().signInWithRedirect(provider).then(()=>{
       firebase.auth().getRedirectResult().then((result)=>{
         this.userData = { email: result['email'], first_name: result['first_name'], picture: result['picture_large']['data']['url'], username: result['name'] };
+        this.irPrincipal();
       }).catch(function(error){
         console.log(error);
       })
@@ -97,6 +98,7 @@ export class HomePage {
       ).then(credential => {
         this.conectado = true;
         this.userData = {email: credential['email'], first_name: credential['displayName'], picture: credential['photoURL'], username: credential['displayName']}
+        this.irPrincipal();
       });
     }catch(err){
       console.log(err);
@@ -157,6 +159,7 @@ export class HomePage {
       ).then(credential => {
         this.conectado = true;
         this.userData = {email: credential['email'], first_name: credential['displayName'], picture: credential['photoURL'], username: credential['displayName']}
+        this.irPrincipal();
       });
 
     }catch(err){
@@ -174,6 +177,7 @@ export class HomePage {
         this.conectado = true;
         let usuario = credential.user;
         this.userData = {email: usuario['email'], first_name: usuario['displayName'], picture: usuario['photoURL'], username: usuario['displayName']}
+        this.irPrincipal();
       });
     }catch(err){
       console.log(err);
@@ -207,7 +211,7 @@ export class HomePage {
   }//irCuentaPropia
 
   irPrincipal(){
-    this.navCtrl.push(InicialPage);
+    this.navCtrl.setRoot(InicialPage);
   }
 
 }//clase
