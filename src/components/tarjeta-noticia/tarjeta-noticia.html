@@ -1,4 +1,36 @@
-<!-- Generated template for the TarjetaNoticiaComponent component -->
-<div>
-  {{text}}
-</div>
+<ion-card>
+  <ion-item>
+    <h2>
+      {{noticia.usuario}}
+    </h2>
+  </ion-item>
+
+  <img [src]="noticia.imagen" />
+
+  <ion-card-content>
+    <p>
+      {{noticia.texto}}
+    </p>
+  </ion-card-content>
+
+  <ion-row>
+    <ion-col>
+      <button ion-button icon-start clear small (click)="like()">
+        <ion-icon name="thumbs-up"></ion-icon>
+        <div>{{noticia.likes}}</div>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button ion-button icon-start clear small>
+        <ion-icon name="text"></ion-icon>
+        <div>Opinión</div>
+      </button>
+    </ion-col>
+      
+    <ion-col>
+      <ion-note>
+        Hoy
+      </ion-note>
+    </ion-col>
+  </ion-row>
+</ion-card>

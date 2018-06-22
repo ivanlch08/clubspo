@@ -43,8 +43,9 @@ pagina inicial
 </div>
 <br/>
 
-<tarjeta-noticia text="uno"></tarjeta-noticia>
-<tarjeta-noticia text="dos"></tarjeta-noticia>
-<tarjeta-noticia text="tres"></tarjeta-noticia>
+<div *ngFor="let pojo of listaNoticias; let i = index; trackBy: trackByFn">
+  <tarjeta-noticia [noticia]="pojo"></tarjeta-noticia>
+</div>
+
 
 </ion-content>

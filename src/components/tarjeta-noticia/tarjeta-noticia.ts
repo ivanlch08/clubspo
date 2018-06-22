@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { NoticiaDto } from '../../models/noticiaDto';
 
 /**
  * Generated class for the TarjetaNoticiaComponent component.
@@ -12,11 +13,15 @@ import { Component } from '@angular/core';
 })
 export class TarjetaNoticiaComponent {
 
-  text: string;
+  @Input('noticia')
+  noticia: NoticiaDto;
 
   constructor() {
     console.log('Hello TarjetaNoticiaComponent Component');
-    this.text = 'Hello World';
-  }
+  }//constructor
 
-}
+  like(){
+    this.noticia.likes += 1;
+  }//like
+
+}//clase

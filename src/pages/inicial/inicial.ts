@@ -15,8 +15,7 @@ import { AAADatosBasicosPage } from '../../pages/aaa-datos-basicos/aaa-datos-bas
 import { AaaBackingBeanProvider } from '../../providers/aaa-backing-bean/aaa-backing-bean';
 //import { Observable } from '@firebase/util';
 import { Observable } from 'rxjs/Rx';
-
-import * as firebase from 'firebase';
+import { NoticiaDto } from '../../models/noticiaDto';
 
 @Component({
   selector: 'page-inicial',
@@ -28,6 +27,9 @@ export class InicialPage {
 
   habilitarRegistro: boolean = false;
 
+  //lista que contiene las tarjetas de noticias
+  listaNoticias:NoticiaDto[] = [];
+
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
@@ -38,8 +40,8 @@ export class InicialPage {
     private aaaBackingProvider: AaaBackingBeanProvider,
     public firebaseService: FirebaseServiceProvider 
   ) {
-    this.db = firebase.firestore();
-  }
+    
+  }//constructor
 
   //ionViewDidLoad() {
   ionViewWillLoad() {
@@ -57,8 +59,11 @@ export class InicialPage {
         this.verificarRegistroBasico().subscribe(regCompleto => {
           if( regCompleto ){
             this.habilitarRegistro = true;
+            //mirar la posibilidad de direccionar al registro basico inmediatamente
           }else{
             this.habilitarRegistro = false;
+            //se carga la lista de noticias
+            this.cargarNoticias();
           }
         });
       }
@@ -66,6 +71,44 @@ export class InicialPage {
       e => this.direccionarAhome(e)
       );
   }//ionViewDidLoad 
+
+  cargarNoticias(){
+    console.log('cargando noticias...');
+    
+    let n1:NoticiaDto = {
+      id: 1,
+      usuario: 'Iván Chacón',
+      tipo: 'string',
+      imagen: '../../assets/imgs/jurasic.jpg',
+      texto: 'bla bla bla',
+      likes: 0,
+      listaComentarios: []
+    }
+
+    let n2:NoticiaDto = {
+      id: 1,
+      usuario: 'Pedro Perez',
+      tipo: 'string',
+      imagen: '../../assets/imgs/future.png',
+      texto: 'xxxxx xxxxx xxxxx xxxxx',
+      likes: 2,
+      listaComentarios: []
+    }
+
+    let n3:NoticiaDto = {
+      id: 1,
+      usuario: 'Sarah Connor',
+      tipo: 'string',
+      imagen: '../../assets/imgs/terminator.jpg',
+      texto: '123 123 123 123 123 123 123',
+      likes: 4,
+      listaComentarios: []
+    }
+    
+    this.listaNoticias.push(n1);
+    this.listaNoticias.push(n2);
+    this.listaNoticias.push(n3);
+  }//cargarNoticias
 
   //verifica si el usuario ya registró la información básica, para así habilitarle
   //el CUAAA para diligenciar la información básica
@@ -102,7 +145,7 @@ export class InicialPage {
     this.afAuth.auth.signOut();
     this.navCtrl.setRoot(HomePage);
   }
-
+/*
   faceLogout(){
     this.facebook.logout().then(result => {
       this.toast.create({
@@ -111,11 +154,11 @@ export class InicialPage {
       }).present();
     });
   }//faceLogout
-
+*/
   accionIniciarAAA(){
     this.navCtrl.push(AAADatosBasicosPage);
   }//accionIniciarAAA
-
+/*
   pruebaRegistro(){
     let data = {
       nombre: 'abc'
@@ -130,7 +173,8 @@ export class InicialPage {
     });
     //this.pruebaListaToPromises();
   }//pruebaRegistro
-
+*/
+/*
   pruebaListaToPromises(){
     console.log('uno');
     this.pruebaListaPromesas()
@@ -150,7 +194,8 @@ export class InicialPage {
     .then(r => console.log('cinco'))
     ;
   }//pruebaListaToPromises
-
+*/
+/*
   pruebaListaPromesas(): Promise<any>{
     let arr = [1, 2, 3, 4, 5];
     let promise = new Promise((resolve, reject) => {
@@ -172,26 +217,8 @@ export class InicialPage {
     });
     return promise;
   }
-
-  private db: any;
-  pruebaCambioEstado(){
-    //CAMBIAR EL ESTADO DE LA BANDERA DE REGISTRO
-      //1. obtener el registro de la bd
-      //2. cambiar el atributo
-      //3. volver a guardar el atributo
-      console.log('buscando registro...');
-      this.aaaBackingProvider.consultarDocumento('registroUsuario', 'fkUsuario', '==', '/usuarios/'+this.loginManager.userData.uid).then(res => {
-        console.log('cambiando estado...');
-        console.log('reg: '+res);
-        if( res.pasoRegistro == 0 ){
-          res.pasoRegistro = 1;
-        }else{
-          res.pasoRegistro = 0;
-        }
-        console.log('guardando cambio...');
-        this.aaaBackingProvider.actualizarDocumento('registroUsuario', res.$key, res).subscribe(r => {
-          console.log('actualizado!');
-        });
-      });
-  }//metodo prueba
+*/
+  trackByFn(index, item){
+    return index;
+  }
 }//clase
